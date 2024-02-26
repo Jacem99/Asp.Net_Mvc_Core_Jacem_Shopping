@@ -1,0 +1,175 @@
+﻿@model classificationsOfProducts;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ApplicationDbContext applicationDbContext
+@inject UserManager<ApplicationUser> UserManager
+
+@*style="position:fixed; top:65px ;right:1%; z-index:1003; "*@
+<div class="mt-3 mb-2 d-flex justify-content-between">
+    <div>
+        <p class="h1 fw-bold text" style="color:#198754; text-shadow:2px 2px #ffaffa">Shoping E-Commerce</p>
+    </div>
+    <div>
+        <button class="btn btn-outline-secondary btn_search mx-1">Shearch</button>
+        <button class="btn btn-outline-secondary btn_categorey mx-1 text-black">Categories</button>
+    </div>
+ </div>
+<div class="col-12 mb-2 mt-1 p-1 Categories ">
+    <form method="post" asp-action="Index" id="FormSelect" class="col-12 d-flex justify-content-between">
+        <div class="col-4">
+            <select class="form-control" id="AgeStagesId" asp-for="AgeStagesId" asp-items="@(new SelectList(Model.AgeStages,"Id","Name"));">
+                <option value="0" class="align-middle">Age</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <select class="form-control" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
+                <option value="0" class="align-middle">Human Class</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <select class="form-control" id="ClothesClassificationsId" asp-for="ClothesClassificationsId" asp-items="@(new SelectList(Model.ClothesClassifications,"Id","Name"));">
+                <option value="0" class="align-middle">Products</option>
+            </select>
+        </div>
+    </form>
+</div>
+@* style="margin-top:70px" *@
+@*style="position:fixed; top:110px ;right:14%; z-index:1003;"*@
+<div class="container border rounded shadow-lg">
+    <div class="row mt-2">
+        @if (!Model.Product.Any())
+        {
+            <div class="col-md-12 Notice">
+                <p class="alert alert-warning h5 text-center">No item founded up till now ..!</p>
+            </div>
+        }
+        @{
+            var userId = UserManager.GetUserId(User);
+        }
+
+        @foreach (var (item, index) in Model.Product.Select((value, i) => (value, i)))
+        {
+            <div class="col-sm-9 col-md-4 col-lg-3 img_transformation divProduct mb-2">
+                <div class="card" style=" height: 450px">
+                    <img class="card-img-top " style="height:230px" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" alt="Product" />
+                    <div class="card-body jj">
+                        <p class="card-title text-muted" style="height:40px">
+                            @(item.Title.Length > 27 ? $"{item.Title.Substring(0, 45)}.." : item.Title)
+                        </p>
+                        <div class="d-flex justify-content-between mb-1 ">
+                            <p class="card-text h6 font-weight-bold">@item.Marka.Name</p>
+                            <p class="card-text h6 p-2">@item.Price $</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class=" h6">@item.Size</p>
+                            <p class=" h6">Size: @item.SizeNumber </p>
+                        </div>
+                        <div class="mb-2">
+                            Discount: @item.Discount%
+                        </div>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+
+                           @*  if (!Model.userProducts.Any(p => p.ApplicationUserId == userId && p.ProductId == item.Id))
+                            { *@
+                                <div class="d-block show@(item.Id) mt-3">
+                                    <a class="btn btn-success border rounded border-success card-link favourite w-100"
+                                       href="javascript:;" data-id="@item.Id" title="Add Favourite..">
+                                        <span style="font-size:16.5px">Favourite</span>
+                                        <i style="color:beige; font-size:16.5px" class="fa fa-heart fa-shield-heart"></i>
+                                    </a>
+                                </div>
+                           // }
+                        }
+                        else
+                        {
+                            <div class="d-block show@(item.Id) mt-3">
+                                <a class="btn btn-success border rounded border-success card-link favourite w-100"
+                                   href="javascript:;" data-id="@item.Id" title="Add Favourite..">
+                                    <span style="font-size:16.5px">Favourite</span>
+                                    <i style="color:beige; font-size:16.5px" class="fa fa-heart fa-shield-heart"></i>
+                                </a>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+<div style="position:fixed; right:10px ; bottom:10px; z-index:1002; ">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-success ">Refresh</a>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $(".Categories").hide();
+            $(".btn_search").hide();
+        });
+        $("i").on("click", function () {
+            $(this).toggleClass("fa-shield-heart");
+        });
+        $(".btn_categorey").click(function () {
+            var innertext = $(this).text() == "Categories" ? "Close" : "Categories";
+            $(this).text(innertext).toggleClass("btn-success").toggleClass("btn-outline-secondary");
+            $(".btn_search").fadeToggle(200);
+            $(".Categories").slideToggle(50);
+        });
+        $(".btn_search").click(function () {
+            $(this).text("Category").toggleClass("btn-danger");
+            $("#FormSelect").submit();
+         });
+
+
+
+        //// Add Mount to Product
+        $(".show").click(function () {
+            $(".show_mount").removeClass("d-none");
+            $(".show").addClass("d-none");
+        });
+        $("#mount").keyup(function () {
+            var aData = $(".editMount");
+            aData.attr("data-id", $(this).val());
+            var data = aData.data("id");
+        })
+
+        $(".buy").on("click", function () {
+            var btn = $(this);
+            console.log(btn.data("id"));
+            $.ajax({
+                url: "/Card/addBuyed?Id=" + btn.data("id"),
+                success: function () {
+                    alert("Added");
+                    $(".show_mount").addClass("d-none");
+                    $(".show").removeClass("d-none");
+                },
+                error: function () {
+                    alert("Ther are Wrong");
+                    $(".show_mount").addClass("d-none");
+                    $(".show").removeClass("d-none");
+                }
+            });
+        });
+        $(".favourite").on("click", function () {
+            var btn = $(this);
+            var selectClassShow = ".show" + btn.data("id");
+            $.ajax({
+                url: "/Card/addFavourite?Id=" + btn.data("id"),
+                success: function (result) {
+                    if (result == "login") {
+                        window.location.href = "/Identity/Account/Login";
+                    }
+                    else {
+                        alert("Added");
+                        $(selectClassShow).remove();
+                    }
+                },
+                error: function () {
+                    alert("Ther are Wrong");
+                }
+            });
+        });
+    </script>
+}
