@@ -3,8 +3,9 @@
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
+       
         public IBaseRepository<AgeStage> AgeStages { get; private set; }
-        public IBaseRepository<ApplicationUser> ApplicationUsers { get; private set; }
+        public IBaseRepository<ApplicationUser> ApplictaionUsers { get; private set; }
         public IBaseRepository<Card> Cards { get; private set; }
         public IBaseRepository<CardProduct> CardProducts { get; private set; }
         public IBaseRepository<ClothesClassification> ClothesClassifications { get; private set; }
@@ -14,14 +15,13 @@
         public IBaseRepository<Product> Products { get; private set; }
         public IBaseRepository<RevesationSystem> RevesationSystems { get; private set; }
         public IBaseRepository<UserProducts> UserProducts { get; private set; }
-        public IBaseRepository<ApplicationUser> ApplictaionUsers => throw new NotImplementedException();
 
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
             AgeStages = new BaseRepository<AgeStage>(_context);
-            ApplicationUsers = new BaseRepository<ApplicationUser>(_context);
+            ApplictaionUsers = new BaseRepository<ApplicationUser>(_context);
             Cards = new BaseRepository<Card>(_context);
             CardProducts = new BaseRepository<CardProduct>(_context);
             ClothesClassifications = new BaseRepository<ClothesClassification>(_context);

@@ -17,13 +17,13 @@ namespace Shopping_Test.Services
         }
         public async Task<classificationsOfProducts> GetResultOfProducts(ClassProduct classProduct)
         {
-          
+
             classificationsOfProducts classifyOfProducts = new classificationsOfProducts
             {
                 ClothesClassifications = await _unitOfWork.ClothesClassifications.GetAll(c => c.Name, OrderBy.Ascending),
                 HumanClassifications = await _unitOfWork.HumanClasses.GetAll(m => m.Name, OrderBy.Ascending),
                 AgeStages = await _unitOfWork.AgeStages.GetAll(a => a.Name, OrderBy.Ascending),
-                userProducts = default!,
+                userProducts = await _unitOfWork.UserProducts.GetAll()
             };
 
             classifyOfProducts.Product = await _ConditionClass.Condition(classProduct).AsSplitQuery().AsNoTracking().ToListAsync();

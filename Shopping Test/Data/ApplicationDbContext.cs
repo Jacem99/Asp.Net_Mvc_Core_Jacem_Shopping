@@ -24,7 +24,7 @@ namespace Shopping_Test.Data
               .HasForeignKey(p => p.ApplicationUserId);
         }
 
-        public DbSet<Product> products { get; set; }
+        public DbSet<Product> Products { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<AgeStage> AgeStages { get; set; }
         public DbSet<ClothesClassification> ClothesClassifications { get; set; }

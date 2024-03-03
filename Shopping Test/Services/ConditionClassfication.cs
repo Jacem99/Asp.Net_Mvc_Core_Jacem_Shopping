@@ -10,7 +10,7 @@ namespace Shopping_Test.Services
         }
         public IQueryable<Product> Condition(ClassProduct classProduct)
         {
-            IQueryable<Product> resultProduct = _dbContext.products;
+            IQueryable<Product> resultProduct = _dbContext.Products;
 
             if (classProduct.ClothesClassificationsId > 0)
                 resultProduct = resultProduct.Where(c => c.ClothesClassificationId == classProduct.ClothesClassificationsId);

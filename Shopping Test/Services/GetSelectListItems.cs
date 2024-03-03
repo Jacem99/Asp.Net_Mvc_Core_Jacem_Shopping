@@ -7,9 +7,12 @@ namespace Shopping_Test.Services
     public class GetSelectListItems : IGetSelectListItems
     {
         private readonly ApplicationDbContext _dbContext;
-        public GetSelectListItems(ApplicationDbContext context)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public GetSelectListItems(ApplicationDbContext context , RoleManager<IdentityRole> roleManager)
         {
             _dbContext = context;
+            _roleManager = roleManager; 
+
         }
         public async Task<IEnumerable<SelectListItem>> AgeStages() =>
             await _dbContext.AgeStages
@@ -34,7 +37,12 @@ namespace Shopping_Test.Services
 
         public async Task<IEnumerable<SelectListItem>> Markas() =>
              await _dbContext.Markas.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name }).OrderBy(c => c.Text)
-           .ToListAsync();
+            .ToListAsync();
+        public async Task<IEnumerable<SelectListItem>> IdentityRoles() =>
+
+          await _roleManager.Roles.Select(c => new SelectListItem { Value = c.Name , Text = c.Name }).OrderBy(c => c.Text)
+           .AsNoTracking().ToListAsync();
+         
 
     } 
 }

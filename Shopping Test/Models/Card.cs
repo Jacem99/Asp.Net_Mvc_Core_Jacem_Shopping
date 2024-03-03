@@ -3,6 +3,7 @@ namespace Shopping_Test.Models
 {
     public class Card
     {
+        [Key]
         public int Id { get; set; }
         public bool? Buyed { get; set; }
         public bool? Favourite { get; set; }

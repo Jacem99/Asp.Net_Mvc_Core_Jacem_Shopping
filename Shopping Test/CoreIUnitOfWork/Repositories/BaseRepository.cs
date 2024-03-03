@@ -13,7 +13,7 @@ namespace Shopping_Test.CoreIUnitOfWork
         public async Task<T> FindByCriteria(Expression<Func<T, bool>>? criteria ) =>
             await _dbContext.Set<T>().SingleOrDefaultAsync(criteria);
 
-        public async Task<T> FindByCriteriaInclude(Expression<Func<T, bool>> criteria = null, string[] includes = null)
+        public async Task<T> FindByCriteriaInclude(Expression<Func<T, bool>>? criteria, string[]? includes)
         {
             IQueryable<T> query = _dbContext.Set<T>();
             if (includes is not null)
@@ -23,7 +23,7 @@ namespace Shopping_Test.CoreIUnitOfWork
             }
             return await query.SingleOrDefaultAsync(criteria);
         }
-        public async Task<bool> CheckAny(Expression<Func<T, bool>> criteria = null) => await _dbContext.Set<T>().AnyAsync(criteria);
+        public async Task<bool> CheckAny(Expression<Func<T, bool>>? criteria) => await _dbContext.Set<T>().AnyAsync(criteria);
         public async Task<bool> CheckAny() => await _dbContext.Set<T>().AnyAsync();
 
         public async Task<IEnumerable<T>> GetAll() => await _dbContext.Set<T>().ToListAsync();
@@ -43,7 +43,7 @@ namespace Shopping_Test.CoreIUnitOfWork
             }
             return await query.AsNoTracking().ToListAsync();
         }
-        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, object>> order = null, string? DefualtOrder = null)
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, object>>? order , string? DefualtOrder)
         {
             IQueryable<T> query = _dbContext.Set<T>();
 
@@ -58,7 +58,7 @@ namespace Shopping_Test.CoreIUnitOfWork
             return await query.AsNoTracking().ToListAsync();
         }
       
-        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> criteria, string[] includes = null, Expression<Func<T, object>> order = null, string DefualtOrder = null)
+        public async Task<IEnumerable<T>> GetAll(Expression<Func<T, bool>> criteria, string[]? includes , Expression<Func<T, object>>? order, string? DefualtOrder)
         {
             IQueryable<T> query = _dbContext.Set<T>().Where(criteria);
             if (includes is not null)
@@ -67,14 +67,17 @@ namespace Shopping_Test.CoreIUnitOfWork
                     query = query.Include(include);
             }
 
-            if (DefualtOrder == OrderBy.Ascending)
-                query = query.OrderBy(order);
-            else
-                query = query.OrderByDescending(order);
+            if (order is not null)
+            {
+                if (DefualtOrder == OrderBy.Ascending)
+                    query = query.OrderBy(order);
+                else
+                    query = query.OrderByDescending(order);
 
+            }
             return await query.AsNoTracking().AsSplitQuery().ToListAsync();
         }
-        public async Task<IEnumerable<T>> GetAll(string[] includes = null, Expression<Func<T, object>> order = null, string DefualtOrder = null)
+        public async Task<IEnumerable<T>> GetAll(string[]? includes , Expression<Func<T, object>>? order , string? DefualtOrder)
         {
             IQueryable<T> query = _dbContext.Set<T>();
 

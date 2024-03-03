@@ -1,6 +1,6 @@
 ﻿@inject UserManager<ApplicationUser> UserManager
-
 @model IEnumerable<Card>;
+
 @{
     ViewData["Title"] = "Card";
 }
@@ -26,13 +26,13 @@
             @foreach (var (item, index) in Model.Select((value, i) => (value, i)))
             {
             <div style="height:200px" class="border rounded mb-1 d-flex card_transformation">
-                <div alt="Product" class="img-thumbnail w-100 col-3 " style=" background-image:url(@($"{FileSettings.imagePath} /{FileSettings.imageProduct}/{item.Products?.NameOfImage}"))" />
+                <img alt="Product" class="img-thumbnail w-25 col-3 " src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.Products?.NameOfImage}")" />
                     <div class="col-9 d-flex justify-content-between flex-column bg-white">
                         <div>
                             @(item.Products.Title.Length > 145? $"{item.Products.Title.Substring(0,145)}...": item.Products.Title)
                         </div>
                         <div class="h6 d-flex justify-content-between">
-                            <div class="font-weight-bold">@item.Products.Marka?.Name</div>
+                          @*   <div class="font-weight-bold">@item.Products.Marka?.Name</div> *@
                             <div class="font-weight-bold">@item.Products.Size</div>
                             <div><span>Item: </span><b> @item.Products.Price$</b></div>
                         </div>
@@ -45,8 +45,8 @@
                                 }
                             </div>
                             <div>
-                                <a class="  deleting text-decoration-none" href="javascript:;" data-id="@item.Id" title="Remove favourite..">
-                                    <i style="color:forestgreen ; font-size:23px" class="fa fa-heart "></i>
+                                <a class="deleting text-decoration-none" href="javascript:;" data-id="@item.Id" title="Remove favourite..">
+                                    <i style="color:forestgreen ; font-size:23px" class="fa fa-heart"></i>
                                 </a>
                             </div>
 

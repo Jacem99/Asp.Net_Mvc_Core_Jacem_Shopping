@@ -10,15 +10,23 @@
     <form method="post" asp-action="Index" autocomplete="on" >
         <div class="d-flex">
             <input class="form-control" placeholder="Search . ." name="SearchCustomer" />
-            <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            <button type="submit" class="btn btn-primary" >Search @* <i class="fa fa-search"></i> *@</button>
         </div>
     </form>
     <form method="post" asp-action="Index" id="FormRole">
-             <select class="form-control" id="selectValue" asp-for="Roles" asp-items="@(new SelectList(Model.identityRoles,"Name","Name"));"></select>
+             <select class="form-control" id="selectValue" asp-for="Roles" asp-items="Model.identityRoles">
+            <option value="0" class="align-middle">Roles</option>
+             </select>
     </form>
 </div>
 
 <div class="col-12 mt-1">
+    @if (Model.applicationUsers ==null)
+    {
+        <div class="col-12 Notice">
+            <p class="alert alert-warning h5 text-center">No User founded up till now ..!</p>
+        </div>
+    }
     @if (!Model.applicationUsers.Any())
     {
         <div class="col-12 Notice">
@@ -39,14 +47,17 @@
             @foreach (var item in Model.applicationUsers)
             {
                 <tr>
-                    <td>@item.DisplayName</td>
+                    <td>
+                        @(String.IsNullOrEmpty(item.DisplayName.Trim()) ? item.UserName : item.DisplayName)
+                     </td>
                     <td>@item.Email</td>
                     <td>@item.PhoneNumber</td>
-                    <td><div style=" width:100px ; height:70px; background-image:url(@($"{FileSettings.imagePath}/{FileSettings.imageUsers}/{item.NameOfImage}"))"></div>
-                        <img alt="user" class="img-thumbnail" src="@item.NameOfImage" width="100" height="70" /></td>
+                    <td><div style="width:100px ; height:70px; "></div>
+                        <img alt="user" class="img-thumbnail" src="@($"{FileSettings.imagePath}/{FileSettings.imageUsers}/{item.NameOfImage}")" width="100" height="70" />
+                    </td>
                     <td class="d-flex a_Modify_customer">
-                        <a asp-action="RoleUser" asp-route-id="@item.Id" class="btn btn-secondary mt-1 mr-1">Role</a>
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary mt-1 mr-1">Edit</a>
+                        <a asp-action="RoleUser" asp-route-id="@item.Id" class="btn btn-secondary mt-1">Role</a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary mt-1 mx-1">Edit</a>
                         <a class="btn btn-danger deleting mt-1" href="javascript:;" data-id="@item.Id">Delete</a>
                     </td>
                 </tr>
@@ -57,7 +68,7 @@
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
 {
-  <div style="position:fixed; right:20px ; bottom:70px; z-index:1001; ">
+    <div style="position:fixed;  right:10px ; bottom:10px; z-index:1001; ">
       <a asp-controller="Customer" asp-action="Index" class="btn btn-success ">Refresh</a>
 </div>
 }

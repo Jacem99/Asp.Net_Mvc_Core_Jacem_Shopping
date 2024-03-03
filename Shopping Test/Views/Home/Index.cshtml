@@ -69,8 +69,8 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
 
-                           @*  if (!Model.userProducts.Any(p => p.ApplicationUserId == userId && p.ProductId == item.Id))
-                            { *@
+                             if (!Model.userProducts.Any(p => p.ApplicationUserId == userId && p.ProductId == item.Id)){ 
+
                                 <div class="d-block show@(item.Id) mt-3">
                                     <a class="btn btn-success border rounded border-success card-link favourite w-100"
                                        href="javascript:;" data-id="@item.Id" title="Add Favourite..">
@@ -78,7 +78,8 @@
                                         <i style="color:beige; font-size:16.5px" class="fa fa-heart fa-shield-heart"></i>
                                     </a>
                                 </div>
-                           // }
+
+                            }
                         }
                         else
                         {
@@ -152,6 +153,8 @@
                 }
             });
         });
+
+        // check user if login or not 
         $(".favourite").on("click", function () {
             var btn = $(this);
             var selectClassShow = ".show" + btn.data("id");

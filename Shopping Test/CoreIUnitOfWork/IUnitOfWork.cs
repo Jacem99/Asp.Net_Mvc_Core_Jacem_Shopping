@@ -15,7 +15,6 @@ namespace Shopping_Test.CoreIUnitOfWork
         IBaseRepository<Product> Products { get; }
         IBaseRepository<RevesationSystem> RevesationSystems { get; }
         IBaseRepository<UserProducts> UserProducts { get; }
-
         Task<int> Complete();
 
     }

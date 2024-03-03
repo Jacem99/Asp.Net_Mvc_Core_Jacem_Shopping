@@ -19,8 +19,15 @@ namespace Shopping_Test.Controllers
         {
           
             string? IdUser = _userManager.GetUserId(User);
-
-            var Cards = await _unitOfWork.Cards.GetAll(u => u.ApplicationUserId == IdUser && u.Favourite == true, new[] { "Products", "Marka" });
+            IEnumerable<Card> Cards = new List<Card>();
+            try
+            {
+                Cards = await _unitOfWork.Cards.GetAll(u => u.ApplicationUserId == IdUser && u.Favourite == true, new[] { "Products"});
+            }
+            catch (Exception ex) { 
+                return BadRequest(ex.Message);
+            }
+           
              return View(Cards);
         }
         public async Task<ActionResult> Favourite()
@@ -34,9 +41,10 @@ namespace Shopping_Test.Controllers
         {
             string? idUser = _userManager.GetUserId(User);
 
-            var buyedCards = await _unitOfWork.Cards.GetAll(u => u.ApplicationUserId == idUser && u.Buyed == true,new[] { "Products", "Marka" });
+            var buyedCards = await _unitOfWork.Cards.GetAll(u => u.ApplicationUserId == idUser && u.Buyed == true,new[] { "Products" });
             return View(buyedCards);
         }
+
         [AllowAnonymous]
         public async Task<ActionResult> addFavourite(string Id)
         {
@@ -63,9 +71,17 @@ namespace Shopping_Test.Controllers
                     ProductId = productId,
                     mount = 1
                 };
-                await _unitOfWork.Cards.Add(card);
-                await _unitOfWork.UserProducts.Add(userProducts);
-                await _unitOfWork.Complete();
+                try
+                {
+                    await _unitOfWork.Cards.Add(card);
+                    await _unitOfWork.Complete();
+                    await _unitOfWork.UserProducts.Add(userProducts);
+                    await _unitOfWork.Complete();
+                }
+                catch(Exception ex) {
+                    return Ok(ex.Message);
+                }
+               
                 return Ok();
             }
             else if (checkFavourite != null)
@@ -80,7 +96,6 @@ namespace Shopping_Test.Controllers
              };
             return Ok();
         }
-
         [HttpGet]
         public async Task<ActionResult> addBuyed(addBuyed addBuyed)
         {
@@ -119,6 +134,7 @@ namespace Shopping_Test.Controllers
             return Ok();
         }
 
+        [HttpGet]
         public async Task<IActionResult> DeleteFavourite(int id)
         {
             var Id = Convert.ToInt32(id);
@@ -145,6 +161,8 @@ namespace Shopping_Test.Controllers
             await _unitOfWork.Complete();
             return Ok();
         }
+
+        [HttpGet]
         public async Task<IActionResult> DeleteBuyed(int id)
         {
             var Id = Convert.ToInt32(id);

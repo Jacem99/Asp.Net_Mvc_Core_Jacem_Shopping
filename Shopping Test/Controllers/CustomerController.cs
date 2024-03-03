@@ -1,4 +1,6 @@
 ﻿
+using Microsoft.Identity.Client;
+
 namespace Shopping_Test.Controllers
 {
 /*   [Authorize(Roles ="Admin")]*/
@@ -7,56 +9,58 @@ namespace Shopping_Test.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        
+        private readonly IGetSelectListItems _getSelectListItems;
+
         private readonly IUnitOfWork _unitOfWork;
         
         public CustomerController(RoleManager<IdentityRole> roleManager,
             UserManager<ApplicationUser> userManager,
              SignInManager<ApplicationUser> signInManager,
-           IUnitOfWork unitOfWork
+           IUnitOfWork unitOfWork,
+           IGetSelectListItems getSelectListItems
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _unitOfWork = unitOfWork;
+            _getSelectListItems = getSelectListItems;
         }
 
         public async Task<IActionResult> Index(string? SearchCustomer , string? Roles)
         {
-            
-          //  await _userManager.GetUsersInRoleAsync(SearchCustomer),
+            //  await _userManager.GetUsersInRoleAsync(SearchCustomer),
+            CutomerRoles cutomerRole = new CutomerRoles();
             if (SearchCustomer != null)
             {
                 SearchCustomer = SearchCustomer.ToLower().Trim();
-                CutomerRoles cutomerRole = new CutomerRoles
-                {
-                    identityRoles = await _roleManager.Roles.AsNoTracking().ToListAsync(),
-                    applicationUsers = await _unitOfWork.ApplictaionUsers
-                    .GetAll(
-                        a => a.Email == SearchCustomer ||
-                        a.PhoneNumber.Contains(SearchCustomer) ||
-                        a.DisplayName.Contains(SearchCustomer) ||
-                        a.UserName == SearchCustomer,
-                        a => a.DisplayName)
-                };
-             return View(cutomerRole);
+
+                cutomerRole.identityRoles = await _getSelectListItems.IdentityRoles();
+                cutomerRole.applicationUsers = await _unitOfWork.ApplictaionUsers
+                .GetAll(
+                    a => a.Email == SearchCustomer ||
+                    a.PhoneNumber.Contains(SearchCustomer) ||
+                    a.DisplayName.Contains(SearchCustomer) ||
+                    a.UserName.Contains(SearchCustomer),
+                    a => a.DisplayName);
+                
+                return View(cutomerRole);
             }
             if(Roles != null)
             {
-                CutomerRoles cutomerRole = new CutomerRoles
-                {
-                    identityRoles = await _roleManager.Roles.AsNoTracking().ToListAsync(),
-                    applicationUsers = await _userManager.GetUsersInRoleAsync(Roles),
-                };
+                cutomerRole.identityRoles = await _getSelectListItems.IdentityRoles();
+                if (Roles == "0")
+                    cutomerRole.applicationUsers = await _unitOfWork.ApplictaionUsers.GetAll(c => c.DisplayName);
+                else
+                    cutomerRole.applicationUsers = await _userManager.GetUsersInRoleAsync(Roles);
+
                 return View(cutomerRole);
             }
-            CutomerRoles cutomer = new CutomerRoles
-            {
-                identityRoles = null, /*await _roleManager.Roles.AsNoTracking().ToListAsync(),*/
-                applicationUsers = null /*await _unitOfWork.ApplictaionUsers.GetAll(c => c.DisplayName)*/
-            };
-            return View(cutomer);
+
+            cutomerRole.identityRoles = await _getSelectListItems.IdentityRoles();
+            cutomerRole.applicationUsers = await _unitOfWork.ApplictaionUsers.GetAll(c => c.DisplayName);
+          
+            return View(cutomerRole);
         }
      
         private async Task<UsersRoles> getUsersRole(ApplicationUser applicationUser)
