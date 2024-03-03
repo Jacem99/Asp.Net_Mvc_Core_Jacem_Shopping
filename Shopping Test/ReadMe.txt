@@ -1,8 +1,7 @@
-﻿
-- this project Shopping_Clothes Ecommerce that it enables you to publish or show your clothes to buy
-
- - you can add product in favourite cart and detect amount of product that you want to buy 
-
+- ﻿Our Electronic Shop Management System is developed using the .NET framework and is designed to 
+streamline the management of electronic products. The system enables you to include a comprehensive 
+product catalog and has featuring for any brand. Users can easily navigate through different categories to 
+find the products they need
 - you will see dashboard to admin to controlle all Section in project
 	for example : you can add and update addational to delete Users , Catogory , Marka , AgeStages , Clothes_Class , Catogery
 
@@ -12,6 +11,9 @@
 				3- Microsoft.AspNetCore.EntityFrameworkCore.SqlServer
 				4- Microsoft.AspNetCore.EntityFrameworkCore.Design
 				5- Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+- Technology: C#, .Net Mvc Core, Sql Server, Code Fist, EntityFramework, IdentityUser, JavaScript, Jquery,
+ Design pattern (Singleton / Prototype / Proxy )
 
 - Next step you have to go appsettings to change (ConnectionStrings) to you server and go to package manager console to run command : update-database
 
