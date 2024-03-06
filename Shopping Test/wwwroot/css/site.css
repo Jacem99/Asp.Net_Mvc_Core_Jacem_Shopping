@@ -7,7 +7,7 @@ a.navbar-brand {
   word-break: break-all;
 }
 body {
-    background-color: #f9eee7;
+    background-color: #ffede1;
 }
 /* Provide sufficient contrast against white background */
 a {
@@ -83,6 +83,13 @@ input[type=number] {
         -moz-appearance: textfield;
       
     }
+
+.dropDownList,.dropDownList:focus {
+    color: white;
+    background-color: #198754;
+    text-align:center;
+}
+
 .div_role a{
     transition:all .1s;
 }
@@ -98,11 +105,10 @@ input[type=number] {
 }
 .card_transformation{
     overflow:hidden;
-    transition:all 0.5s;
-    text-indent:25px;
+    transition:all 1s;
 }
     .card_transformation:hover {
-        width: 100.5%;
+        width: 100.2%;
         
     }
 

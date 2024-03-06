@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = Model.Id ==null ? "Create" : "Edit";
 }
-
-<h1 class="alert alert-light text-center">@(Model.Id != null ? "Edit" : "Create")</h1>
+<div class="bg-light rounded-3">
+<h1 class="alert fw-bold text-success text-center p-2">@(Model.Id != null ? "Edit" : "Create")</h1>
 <div class="container rounded p-1">
     <div class="row">
         <form asp-action="Modify" method="post">
@@ -23,8 +23,9 @@
             </div>
         </form>
     </div>
-
 </div>
+</div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

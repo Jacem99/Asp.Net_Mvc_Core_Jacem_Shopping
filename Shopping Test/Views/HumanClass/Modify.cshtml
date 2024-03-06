@@ -2,27 +2,29 @@
 @{
     ViewData["Title"] = Model.Id < 1 ? "Create" : "Edit";
 }
-
-<h1 class="alert alert-light text-center">@(Model.Id < 1 ? "Create" : "Edit")</h1>
-<div class="container rounded p-1">
-    <div class="row">
-        <form asp-action="Modify" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            @if (Model.Id > 0)
-            {
-                <input type="hidden" asp-for="Id" />
-            }
-            <div class="form-group col-md-4 mt-2">
-                <label asp-for="Name" class="text-muted"></label>
-                <input asp-for="Name" class="form-control" />
-            </div>
-            <div class="form-group col-md-4 mt-2">
-                <input type="submit" class="btn btn-primary text-center col-md-6" value=@(Model.Id < 1 ? "Save" : "Edit") />
-                <a asp-action="Index" class="btn btn-secondary text-center col-md-5">Back</a>
-            </div>
-        </form>
+<div class="bg-light rounded-3">
+    <h1 class="alert fw-bold text-success text-center p-2">@(Model.Id < 1 ? "Create" : "Edit")</h1>
+    <div class="container rounded p-1">
+        <div class="row">
+            <form asp-action="Modify" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                @if (Model.Id > 0)
+                {
+                    <input type="hidden" asp-for="Id" />
+                }
+                <div class="form-group col-md-4 mt-2">
+                    <label asp-for="Name" class="text-muted"></label>
+                    <input asp-for="Name" class="form-control" />
+                </div>
+                <div class="form-group col-md-4 mt-2">
+                    <input type="submit" class="btn btn-primary text-center col-md-6" value=@(Model.Id < 1 ? "Save" : "Edit") />
+                    <a asp-action="Index" class="btn btn-secondary text-center col-md-5">Back</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

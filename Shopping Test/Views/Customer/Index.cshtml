@@ -4,7 +4,8 @@
     ViewData["Title"] = "Roles";
 }
 
-<h2 class="alert alert-light text-center ">Customer</h2>
+<div class="bg-light rounded-3">
+<h2 class="alert fw-bold text-success text-center p-2">Customer</h2>
 <div class="col-12 d-flex justify-content-between">
     <a class="btn btn-primary " asp-area="Identity" asp-page="/Account/Register">Create</a>
     <form method="post" asp-action="Index" autocomplete="on" >
@@ -19,7 +20,6 @@
              </select>
     </form>
 </div>
-
 <div class="col-12 mt-1">
     @if (Model.applicationUsers ==null)
     {
@@ -38,8 +38,6 @@
             <tr>
                 <th class="text-muted">Name</th>
                 <th class="text-muted">Email</th>
-                <th class="text-muted">PhoneNumber</th>
-                <th class="text-muted">Image</th>
                 <th class="text-muted">Action</th>
             </tr>
         </thead>
@@ -51,10 +49,9 @@
                         @(String.IsNullOrEmpty(item.DisplayName.Trim()) ? item.UserName : item.DisplayName)
                      </td>
                     <td>@item.Email</td>
-                    <td>@item.PhoneNumber</td>
-                    <td><div style="width:100px ; height:70px; "></div>
+                  @*   <td><div style="width:100px ; height:70px; "></div>
                         <img alt="user" class="img-thumbnail" src="@($"{FileSettings.imagePath}/{FileSettings.imageUsers}/{item.NameOfImage}")" width="100" height="70" />
-                    </td>
+                    </td> *@
                     <td class="d-flex a_Modify_customer">
                         <a asp-action="RoleUser" asp-route-id="@item.Id" class="btn btn-secondary mt-1">Role</a>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary mt-1 mx-1">Edit</a>
@@ -64,6 +61,7 @@
             }
         </tbody>
     </table>
+</div>
 </div>
 
 @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))

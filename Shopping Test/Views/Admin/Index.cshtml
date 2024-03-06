@@ -1,44 +1,48 @@
 ﻿<div class="mt-5 container ">
-    <h1 class="alet alert-light text-center p-2 rounded">Admin</h1>
+    <h1 class="alert fw-bold text-success text-center p-2 rounded">DashBoard</h1>
     <hr />
     <div class="row div_role text-center">
+        @{
+            string classLinks = "col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none";
+            string divBgDark = "rounded bg-dark col-12 h3 p-5 mt-2";
+            string divBgSuccess = "rounded bg-success col-12 h3 p-5 mt-2";
+        }
 
-
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none " asp-action="Index" asp-controller="Customer">
-            <div class="rounded bg-dark col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="Customer">
+            <div class="@divBgDark">
                 <i class="bi bi-person-bounding-box h3"></i>  Customer
             </div>
         </a>
 
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none" asp-action="Index" asp-controller="Product">
-            <div class="rounded bg-success col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="Product">
+            <div class="@divBgSuccess">
                 <i class="bi bi-file-text-fill h3"></i>  Product
             </div>
         </a>
 
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none" asp-action="Index" asp-controller="Roles">
-            <div class="rounded bg-dark col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="Roles">
+            <div class="@divBgDark">
                 <i class="bi bi-controller h3"></i>  Roles
             </div>
         </a>
 
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none" asp-action="Index" asp-controller="Catogery">
-            <div class="rounded bg-success col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="Catogery">
+            <div class="@divBgSuccess">
                 <i class="fa-brands fa-shopify"></i>  Catogery
             </div>
         </a>
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none" asp-action="Index" asp-controller="Marka">
-            <div class="rounded bg-dark col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="Marka">
+            <div class="@divBgDark">
                 <i class="fa-solid fa-square-check"></i>  Marka
             </div>
         </a>
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none" asp-action="Index" asp-controller="HumanClass">
-            <div class="rounded bg-success col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="HumanClass">
+            <div class="@divBgSuccess">
                 <i class="fa-solid fa-square-check"></i>  Human class
             </div>
         </a>
-        <a class="col-sm-12 col-md-6 col-lg-4 text-center border-white mt-2 bg-white text-white text-decoration-none" asp-action="Index" asp-controller="AgeStages">
-            <div class="rounded bg-dark col-12 h3 p-5">
+        <a class="@classLinks" asp-action="Index" asp-controller="AgeStages">
+            <div class="@divBgDark">
                 <i class="fa-solid fa-square-check"></i> Age Stages
             </div>
         </a>

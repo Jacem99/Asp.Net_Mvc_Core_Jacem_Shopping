@@ -18,15 +18,15 @@
                 @{
                     if (User.IsInRole(Permissions.Admin))
                     {
-                        <a class="fw-bolder h5 text-white mx-3 text-decoration-none" asp-area="" asp-controller="Admin" asp-action="Index">DashBoard</a>
+                        <a class="fw-bolder h5 text-white mt-3 mx-3 text-decoration-none" asp-area="" asp-controller="Admin" asp-action="Index">DashBoard</a>
                     }
 
                   }
                 @{
                     if (SignInManager.IsSignedIn(User))
                     {
-                        
-                    <a class="fw-bolder h5 text-white mx-3 text-decoration-none" asp-area="" asp-controller="Card" asp-action="Index">Card</a>
+
+                        <a class="fw-bolder h5 text-white mt-3 mx-3 text-decoration-none" asp-area="" asp-controller="Card" asp-action="Index">Card</a>
                     }
                   }
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"

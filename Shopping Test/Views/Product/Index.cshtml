@@ -3,8 +3,9 @@
 @{
     ViewData["Title"] = "Roles";
 }
-<p class="alert alert-light text-center h2">Product</p>
+<div class="bg-light rounded-3">
 
+<h1 class="alert fw-bold text-success text-center p-2">Products</h1>
 <div class="container rounded">
 
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -19,18 +20,18 @@
     }
     @foreach (var item in Model)
     {
-        <div style="height:230px" class="border rounded mb-1 d-flex card_transformation delete_div">
-            <img alt="Product" class="img-thumbnail w-25 col-3" style="height:210px;" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" />
+        <div style="height:200px" class="border rounded mb-1 d-flex card_transformation delete_div">
+            <img alt="Product" class="img-thumbnail w-25 col-3" style="height:190px;" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" />
             <div class="col-9 d-flex justify-content-between flex-column">
                 <div class="fw-bolder">
                     @(item.Title.Length > 240? $"{item.Title.Substring(0,240)}...": item.Title)
                 </div>
                 <div class="h6 d-flex justify-content-between">
-                    <div class="fw-bolder">
+                    <div>
                         @item.Marka.Name
                     </div>
-                    <div class="fw-bolder">@item.Size</div>
-                    <div class="fw-bolder">@item.Price$</div>
+                    <div>@item.Size</div>
+                    <div>@item.Price$</div>
                 </div>
                 <div class="mb-1 d-flex justify-content-end">
                     <div class="d-inline-flex">
@@ -42,6 +43,7 @@
         </div>
     }
 
+</div>
 </div>
 @section Scripts {
     <script>

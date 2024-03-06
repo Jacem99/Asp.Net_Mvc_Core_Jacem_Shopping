@@ -3,17 +3,16 @@
 @{
     ViewData["Title"] = "Edit";
 }
+<div class="bg-light rounded-3">
 
-<h1 class="alert alert-light text-center">Edit</h1>
-
+<h1 class="alert fw-bold text-success text-center p-2">Edit</h1>
 <div class="container">
         <div  class="col-sm-12 col-md-5">
             <form asp-action="Edit" enctype="multipart/form-data" method="post">
                 <div asp-validation-summary="All" class="text-danger h4"></div>
                 <div class="mb-2 overflow-hidden divImage">
-                <div alt="Product" class="rounded col-7" style="height:210px; background-image:url(@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{Model.product.NameOfImage}"));" />
-                   
-                </div>
+                <img alt="Product" class="rounded col-8" style="height:210px;" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{Model.product.NameOfImage}")" />
+      </div>
                 <input type="hidden" asp-for="product.Id" />
                 <div class="form-group">
                     <label asp-for="product.Title" class="text-muted"></label>
@@ -76,15 +75,15 @@
                     <input asp-for="product.Discount" class="form-control" />
                     <span asp-validation-for="product.Discount" class="alert-danger"></span>
                 </div>
-                <div class="form-group ">
+            <div class="form-group mt-2 ">
                     <input type="submit" class="btn btn-primary text-center col-5" value="Save" />
                     <a asp-action="Index" asp-controller="Product" class="btn btn-secondary col-5">Back</a>
                 </div>
-
             </form>
         </div>
     </div>
 
+</div>
 @section Scripts {
     <script>
         $(document).ready(function () {

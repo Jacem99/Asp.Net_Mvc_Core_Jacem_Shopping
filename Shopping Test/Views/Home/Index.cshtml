@@ -10,24 +10,24 @@
     </div>
     <div>
         <button class="btn btn-outline-secondary btn_search mx-1">Shearch</button>
-        <button class="btn btn-outline-secondary btn_categorey mx-1 text-black">Categories</button>
+        <button class="btn btn-success btn_categorey mx-1 text-white">Categories</button>
     </div>
  </div>
 <div class="col-12 mb-2 mt-1 p-1 Categories ">
     <form method="post" asp-action="Index" id="FormSelect" class="col-12 d-flex justify-content-between">
         <div class="col-4">
-            <select class="form-control" id="AgeStagesId" asp-for="AgeStagesId" asp-items="@(new SelectList(Model.AgeStages,"Id","Name"));">
-                <option value="0" class="align-middle">Age</option>
+            <select class="form-control dropDownList" id="AgeStagesId" asp-for="AgeStagesId" asp-items="@(new SelectList(Model.AgeStages,"Id","Name"));">
+                <option value="0" >Age</option>
             </select>
         </div>
         <div class="col-4">
-            <select class="form-control" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
-                <option value="0" class="align-middle">Human Class</option>
+            <select class="form-control dropDownList" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
+                <option value="0" >Human Class</option>
             </select>
         </div>
         <div class="col-4">
-            <select class="form-control" id="ClothesClassificationsId" asp-for="ClothesClassificationsId" asp-items="@(new SelectList(Model.ClothesClassifications,"Id","Name"));">
-                <option value="0" class="align-middle">Products</option>
+            <select class="form-control dropDownList" id="ClothesClassificationsId" asp-for="ClothesClassificationsId" asp-items="@(new SelectList(Model.ClothesClassifications,"Id","Name"));">
+                <option value="0" >Products</option>
             </select>
         </div>
     </form>
@@ -114,7 +114,7 @@
         });
         $(".btn_categorey").click(function () {
             var innertext = $(this).text() == "Categories" ? "Close" : "Categories";
-            $(this).text(innertext).toggleClass("btn-success").toggleClass("btn-outline-secondary");
+            $(this).text(innertext).toggleClass("btn-success").toggleClass("btn-danger");
             $(".btn_search").fadeToggle(200);
             $(".Categories").slideToggle(50);
         });
