@@ -5,12 +5,12 @@
 }
 <div class="bg-light rounded-3">
 
-<h1 class="alert fw-bold text-success text-center p-2">Products</h1>
+<h1 class="alert fw-bolder text-success text-center p-2">Products</h1>
 <div class="container rounded">
 
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
     {
-        <div><a class="btn btn-primary mb-1" asp-action="Create" asp-controller="Product">Create</a></div>
+            <div class="d-flex justify-content-end"><a class="btn btn-success mb-1" asp-action="Create" asp-controller="Product">Create</a></div>
     }
     @if (!Model.Any())
     {
@@ -18,30 +18,33 @@
             <p class="alert alert-warning h5 text-center">No item founded up till now ..!</p>
         </div>
     }
+ <div class="row">
+
     @foreach (var item in Model)
     {
-        <div style="height:200px" class="border rounded mb-1 d-flex card_transformation delete_div">
-            <img alt="Product" class="img-thumbnail w-25 col-3" style="height:190px;" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" />
-            <div class="col-9 d-flex justify-content-between flex-column">
-                <div class="fw-bolder">
-                    @(item.Title.Length > 240? $"{item.Title.Substring(0,240)}...": item.Title)
-                </div>
-                <div class="h6 d-flex justify-content-between">
-                    <div>
-                        @item.Marka.Name
+       <div class="col-md-6 rounded mb-1 d-flex card_transformation delete_div mt-3">
+                    <img alt="Product" class="img-thumbnail w-25 col-3" style="height:165px;" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" />
+                    <div class="col-9 d-flex justify-content-between flex-column">
+                        <div class="fw-bolder">
+                            @(item.Title.Length > 240 ? $"{item.Title.Substring(0, 240)}..." : item.Title)
+                        </div>
+                        <div class="h6 d-flex justify-content-between">
+                            <div>
+                                @item.Marka.Name
+                            </div>
+                            <div>@item.Size</div>
+                            <div>@item.Price$</div>
+                        </div>
+                        <div class="mb-1 d-flex justify-content-end">
+                            <div class="d-inline-flex">
+                                <a asp-action="Edit" class="btn btn-secondary mt-1 mx-2" asp-route-id="@item.Id">Edit</a>
+                                <a class="btn btn-danger deleting mt-1" href="javascript:;" data-id="@item.Id">Delete</a>
+                            </div>
+                        </div>
                     </div>
-                    <div>@item.Size</div>
-                    <div>@item.Price$</div>
-                </div>
-                <div class="mb-1 d-flex justify-content-end">
-                    <div class="d-inline-flex">
-                        <a asp-action="Edit" class="btn btn-secondary mt-1 mx-2" asp-route-id="@item.Id">Edit</a>
-                        <a class="btn btn-danger deleting mt-1" href="javascript:;" data-id="@item.Id">Delete</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+                </div>        
     }
+</div>
 
 </div>
 </div>

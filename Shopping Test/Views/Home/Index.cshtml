@@ -32,10 +32,9 @@
         </div>
     </form>
 </div>
-@* style="margin-top:70px" *@
-@*style="position:fixed; top:110px ;right:14%; z-index:1003;"*@
-<div class="container border rounded shadow-lg">
-    <div class="row mt-2">
+
+<div class="container border shadow-lg rounded-3">
+    <div class="row mt-4">
         @if (!Model.Product.Any())
         {
             <div class="col-md-12 Notice">
@@ -48,8 +47,8 @@
 
         @foreach (var (item, index) in Model.Product.Select((value, i) => (value, i)))
         {
-            <div class="col-sm-9 col-md-4 col-lg-3 img_transformation divProduct mb-2">
-                <div class="card" style=" height: 450px">
+            <div class="container col-sm-9 col-md-4 col-lg-3 img_transformation divProduct mb-2">
+                <div class="card rounded-3" style="height: 420px">
                     <img class="card-img-top " style="height:230px" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" alt="Product" />
                     <div class="card-body jj">
                         <p class="card-title text-muted" style="height:40px">

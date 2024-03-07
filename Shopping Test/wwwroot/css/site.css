@@ -7,12 +7,10 @@ a.navbar-brand {
   word-break: break-all;
 }
 body {
-    background-color: #ffede1;
+    background-color: #fff1e2;
 }
 /* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
-}
+a {color: #0366d6;}
 
 .btn-primary {
   color: #fff;
@@ -28,30 +26,18 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-  font-size: 14px;
-}
+html { font-size: 14px;}
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+  html {font-size: 16px; }
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
+.border-top {border-top: 1px solid #e5e5e5;}
+.border-bottom {border-bottom: 1px solid #e5e5e5;}
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);}
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
+button.accept-policy {font-size: 1rem;
+  line-height: inherit;}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -60,10 +46,7 @@ html {
   min-height: 100%;
 }
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
+body {/* Margin bottom by footer height */ margin-bottom: 60px;}
 .footer {
   position: absolute;
   bottom: 0;
@@ -91,7 +74,7 @@ input[type=number] {
 }
 
 .div_role a{
-    transition:all .1s;
+    transition:all .2s;
 }
 
 .div_role a:hover{
@@ -104,24 +87,23 @@ input[type=number] {
    transform:translate(.6px,.6px);
 }
 .card_transformation{
-    overflow:hidden;
-    transition:all 1s;
+ 
+    transition:all 0.5s;
 }
-    .card_transformation:hover {
-        width: 100.2%;
+/*.card_transformation:hover {
+        width: 50.01%;
         
-    }
+    }*/
 
 .img_transformation {
     transition: all 0.2s;
 
 }
 
-    .img_transformation:hover {
+   .img_transformation:hover {
         transform: translate(.8px,.8px);
        
     }
     .img_transformation .jj:hover {
         transform: translate(.8px,.8px);
-        
     }
