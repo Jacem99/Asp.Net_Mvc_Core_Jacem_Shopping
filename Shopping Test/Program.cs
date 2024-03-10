@@ -41,6 +41,7 @@ builder.Services.AddAuthentication(option =>
     builder.Services.AddScoped<IConditionClassification, ConditionClassfication>();
     builder.Services.AddScoped<IProxyResultOfProducts, ProxyResultOfProducts>();
     builder.Services.AddScoped<IGetSelectListItems, GetSelectListItems>();
+    builder.Services.AddScoped<ICaching, Caching>();
 
 
 //////////////////////////////////////////////////////////////////////////////////

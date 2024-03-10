@@ -2,9 +2,9 @@
 @{
     ViewData["Title"] = Model.Id < 1 ? "Create" : "Edit";
 }
-<div class="bg-light rounded-3">
+<div class="container p-3">
     <h1 class="alert fw-bold text-success text-center p-2">@(Model.Id < 1 ? "Create" : "Edit")</h1>
-    <div class="container rounded p-1">
+    <div class="divCenter cartsofCart shadow-lg mt-4">
         <div class="row">
             <form asp-action="Modify" method="post">
                 <div asp-validation-summary="All" class="text-danger"></div>

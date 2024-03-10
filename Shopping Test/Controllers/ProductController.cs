@@ -57,10 +57,10 @@ namespace Shopping_Test.Controllers
             if (viewProducts == null)
                 return BadRequest();
 
-            if (!ModelState.IsValid)
+            /*if (!ModelState.IsValid)
             {
                 return View(await GetSelectItem(viewProducts));
-            }
+            }*/
 
             var nameOfFile = _processImage.nameOfFile(viewProducts.Image);
             await _processImage.stream(FileSettings.imageProduct, viewProducts.Image , nameOfFile);

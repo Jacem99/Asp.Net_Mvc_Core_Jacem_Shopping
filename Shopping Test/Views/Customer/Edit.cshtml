@@ -3,9 +3,9 @@
     ViewData["Tilte"] = "Edit" + Model.UserName;
 }
 
-<div class="bg-light rounded-3">
+<div class="container p-3">
 <h2 class="alert fw-bold text-success text-center p-2">@Model.UserName</h2>
-<div class=" container">
+    <div class="divCenter cartsofCart shadow-lg mt-4">
     <div class="row">
         <form asp-action="Edit" method="post" class="col-md-6">
             <div class="text-danger h4 mb-1" asp-validation-summary="All"></div>

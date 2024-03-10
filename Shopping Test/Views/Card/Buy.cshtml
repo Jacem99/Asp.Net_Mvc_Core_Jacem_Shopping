@@ -1,12 +1,11 @@
 ﻿@inject UserManager<ApplicationUser> UserManager
-
 @model IEnumerable<Card>;
 @{
     ViewData["Title"] = "Card";
 }
-<div class="bg-light rounded-3">
+<div class="container p-3">
     <h1 class="alert text-success fw-bolder text-center mt-3 rounded p-2">Card</h1>
-    <div class="container">
+    <div class="divCenter cartsofCart shadow-lg mt-4">
         <div class="d-flex justify-content-end mb-1">
             <a asp-controller="Card" asp-action="Index" class="btn btn-success">Favourite</a>
         </div>
@@ -19,10 +18,11 @@
         <div class="row mt-3">
             @foreach (var item in Model)
             {
-                <div class="col-md-6 rounded-3 mb-1 d-flex card_transformation">
+                <div class="col-md-6 mb-2 card_transformation">
+                    <div class="d-flex cartsofCart">
                     <img style="height:165px" alt="Product" class="w-25 col-3 " src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.Products?.NameOfImage}")" />
                     <div class="container col-9 d-flex justify-content-between flex-column bg-white">
-                        <div class ="fw-bold">
+                            <div class="fw-bold mt-2 text-break">
                             @(item.Products.Title.Length > 145 ? $"{item.Products.Title.Substring(0, 145)}..." : item.Products.Title)
                         </div>
                         <div class="h6 d-flex justify-content-between">
@@ -60,6 +60,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
 
                 </div>
