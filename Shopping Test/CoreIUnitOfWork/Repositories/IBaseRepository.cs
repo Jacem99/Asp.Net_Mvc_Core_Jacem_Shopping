@@ -23,7 +23,6 @@ namespace Shopping_Test.CoreIUnitOfWork
         Task<int> Remove(string id);
         Task<int> Remove(Expression<Func<T, bool>> criterai = null);
         Task<int> RemoveRange(Expression<Func<T, bool>> criterai = null);
-
         Task<bool> CheckAny();
         Task<bool> CheckAny(Expression<Func<T, bool>> criteria = null);
         Task<bool> CheckFound(Expression<Func<T, bool>> criteria = null);

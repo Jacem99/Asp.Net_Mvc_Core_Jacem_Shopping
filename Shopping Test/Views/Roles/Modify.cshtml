@@ -1,11 +1,11 @@
 ﻿@model IdentityRole;
 
 @{
-    ViewData["Title"] = Model.Id ==null ? "Create" : "Edit";
+    ViewData["Title"] = Model.Id== "" ? "Create" : "Edit";
 }
 <div class="container p-3">
-<h1 class="alert fw-bolder text-success text-center p-2">@(Model.Id != null ? "Edit" : "Create")</h1>
-    <div class="divCenter cartsofCart shadow-lg mt-4">
+<h1 class="alert fw-bolder text-success text-center p-2">@(Model.Id == "" ? "Create" : "Edit")</h1>
+    <div class="divCenter cartsofCart shadow-lg mt-4 p-3">
     <div class="row">
         <form asp-action="Modify" method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -18,7 +18,7 @@
                 <input asp-for="Name" class="form-control" />
             </div>
             <div class="form-group col-md-4 mt-2">
-                <input type="submit" class="btn btn-primary text-center col-md-6" value=@(Model.Id == null ? "Save" : "Edit") />
+                <input type="submit" class="btn btn-success text-center col-md-6" value=@(Model.Id =="" ? "Save" : "Edit") />
                 <a asp-action="Index" class="btn btn-secondary text-center col-md-5">Back</a>
             </div>
         </form>

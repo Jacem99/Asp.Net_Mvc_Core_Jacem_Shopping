@@ -3,28 +3,28 @@
     @{
         ViewData["Title"] = "Card";
 }
-<div class="p-3">
-    <h1 class="alert text-success text-center fw-bolder mt-3 rounded p-2">Card</h1>
-    <div class="divCenter cartsofCart shadow-lg mt-4">
-        <div class="d-flex justify-content-end mb-1">
+<div>
+    <h1 class="alert text-success text-center fw-bolder p-2">Card</h1>
+    <div class="divCenter cartsofCart shadow-lg mt-4 p-3">
+        <div>
             <a asp-controller="Card" asp-action="Buy" class="btn btn-success toggle">
-                <i class="fa fa-cart-plus cart" aria-hidden="true"></i> Purchases
+                <i class="bi bi-handbag-fill" aria-hidden="true"></i> Purchases
             </a>
         </div>
 
         @if (!Model.Any())
         {
-            <div class="container mt-2">
+            <div class="container mt-3 shadow-lg">
                 <p class="alert alert-light text-muted h5 text-center">No item selected in fovourite . . !</p>
             </div>
         }
         <div class="row mt-3">
             @foreach (var (item, index) in Model.Select((value, i) => (value, i)))
             {
-                <div class="col-md-6 mb-2 card_transformation">
-                    <div class="d-flex cartsofCart">
+                <div class="col-md-6 mb-2 cartDeleted">
+                    <div class="d-flex cartsofCart shadow-lg">
                         <img style="height:165px" alt="Product" class="w-25 col-3 " src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.Products?.NameOfImage}")" />
-                        <div class="container col-9 d-flex justify-content-between flex-column bg-white ">
+                        <div class="container col-9 d-flex justify-content-between flex-column fieldsOfCarts ">
                             <div class="fw-bold mt-2 text-break">
                                 @(item.Products.Title.Length > 145 ? $"{item.Products.Title.Substring(0, 145)}..." : item.Products.Title)
                             </div>
@@ -35,18 +35,16 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <div class="d-inline-flex">
-
                                     @for (var i = 0; i < @item.Products.Rate; i++)
                                     {
-                                        <i style="color:darkorange ; width:20px" class="fa fa-star "></i>
+                                        <i style="color:darkorange ; width:20px" class="bi bi-star-fill"></i>
                                     }
                                 </div>
                                 <div>
-                                    <a class="deleting text-decoration-none" href="javascript:;" data-id="@item.Id" title="Remove favourite..">
-                                        <i style="color:forestgreen ; font-size:23px" class="fa fa-heart"></i>
+                                    <a class=" text-decoration-none deleting" href="javascript:;" data-id="@item.ProductId" title="Remove favourite..">
+                                        <i style="color:forestgreen ; font-size:23px" class="bi bi-heart-fill"></i>
                                     </a>
                                 </div>
-
                             </div>
                             <div class="mb-1 mt-2">
                                 <div class="d-flex justify-content-between" asp-action="addBuyed" asp-controller="Card">
@@ -57,22 +55,18 @@
                                            placeholder="Mount .." />
 
                                     <div class="float-right">
-                                        <a class="btn btn-primary card-link add_to_buy " href="javascript:;" data-id="@index&@item.ProductId">
+                                        <a class="btn btn-success card-link add_to_buy " href="javascript:;" data-id="@index&@item.ProductId">
                                             Add To Buy
                                         </a>
-
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                 </div>
                 </div>
-
             }
         </div>
     </div>
-   
 </div>
 
 @section Scripts {
@@ -94,19 +88,16 @@
             ////////////////////////
             $(".deleting").on("click", function () {
                 var btn = $(this);
-
-                var result = confirm("Are you sure to delete ?");
-                if (result) {
                     $.ajax({
                         url: "/Card/DeleteFavourite/" + btn.data("id"),
+                        type: "GET",
                         success: function () {
-                            btn.parents(".card_transformation").remove();
+                            btn.parents(".cartDeleted").remove();
                         },
                         error: function () {
                             alert("Some thing is wrong");
                         }
                     })
-                }
             });
             /////////////////////////
             $(".add_to_buy").click(function () {
@@ -121,7 +112,7 @@
                     ValueMount: mount_Value,
                     ProductId: result.pop(),
                 };
-                var result = confirm("Are you sure to Add to Buy ?");
+                
                 if (result) {
                     $.ajax({
                         url: "/Card/addBuyed",
@@ -135,7 +126,6 @@
                         }
                     })
                 }
-
             });
         });
     </script>

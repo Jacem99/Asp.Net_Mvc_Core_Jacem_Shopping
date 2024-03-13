@@ -3,25 +3,25 @@
 @{
     ViewData["Title"] = "Card";
 }
-<div class="container p-3">
-    <h1 class="alert text-success fw-bolder text-center mt-3 rounded p-2">Card</h1>
-    <div class="divCenter cartsofCart shadow-lg mt-4">
-        <div class="d-flex justify-content-end mb-1">
-            <a asp-controller="Card" asp-action="Index" class="btn btn-success">Favourite</a>
+<div>
+    <h1 class="alert text-success fw-bolder text-center p-2">Card</h1>
+    <div class="divCenter cartsofCart shadow-lg mt-4 p-3">
+        <div>
+            <a asp-controller="Card" asp-action="Index" class="btn btn-success"><i class="bi bi-heart"></i> Favourite</a>
         </div>
         @if (!Model.Any())
         {
-            <div class="container mt-2">
+            <div class="container mt-2 shadow-lg">
                 <p class="alert alert-light text-muted h5 text-center">No item selected in Buyed . . !</p>
             </div>
         }
         <div class="row mt-3">
             @foreach (var item in Model)
             {
-                <div class="col-md-6 mb-2 card_transformation">
-                    <div class="d-flex cartsofCart">
+                <div class="col-md-6 mb-2 removeDiv ">
+                    <div class="d-flex cartsofCart shadow-lg">
                     <img style="height:165px" alt="Product" class="w-25 col-3 " src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.Products?.NameOfImage}")" />
-                    <div class="container col-9 d-flex justify-content-between flex-column bg-white">
+                        <div class="container col-9 d-flex justify-content-between flex-column fieldsOfCarts">
                             <div class="fw-bold mt-2 text-break">
                             @(item.Products.Title.Length > 145 ? $"{item.Products.Title.Substring(0, 145)}..." : item.Products.Title)
                         </div>
@@ -47,13 +47,11 @@
                                 <div class="d-block">
                                     @for (var i = 0; i < @item.Products.Rate; i++)
                                     {
-                                        <i style="color:darkorange ; width:20px" class="fa fa-star float-left"></i>
+                                       <i style="color:darkorange ; width:20px" class="bi bi-heart-fill float-left"></i>
                                     }
                                 </div>
-
                                 <div>
-
-                                    <a class=" btn btn-primary card-link buy" href="javascript:;" data-id="@item.ProductId">Buy</a>
+                                    <a class=" btn btn-success card-link buy" href="javascript:;" data-id="@item.ProductId">Buy</a>
                                     <a class=" btn btn-danger deleting text-decoration-none" href="javascript:;" data-id="@item.Id" title="Remove favourite..">
                                         Delete
                                     </a>
@@ -73,13 +71,8 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-@*
-            $(".toggle").click(function () {
-            })*@
-
             $(".buy").on("click", function () {
                 var btn = $(this);
-                console.log(btn.data("id"));
                 $.ajax({
                     url: "/Card/addBuyed?Id=" + btn.data("id"),
                     success: function () {
@@ -90,22 +83,20 @@
                     }
                 });
             });
-            ////////////////////////
+           
+
             $(".deleting").on("click", function () {
                 var btn = $(this);
                 console.log(btn.data("id"));
-                var result = confirm("Are you sure to delete ?");
-                if (result) {
                     $.ajax({
                         url: "/Card/DeleteBuyed/" + btn.data("id"),
                         success: function () {
-                            btn.parents(".card_transformation").remove();
+                            btn.parents(".removeDiv").fadeIn();
                         },
                         error: function () {
                             alert("Some thing is wrong");
                         }
                     })
-                }
             });
         });
     </script>

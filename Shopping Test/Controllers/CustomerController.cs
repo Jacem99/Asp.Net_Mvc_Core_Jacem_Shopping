@@ -131,7 +131,7 @@ namespace Shopping_Test.Controllers
 
             _unitOfWork.ApplictaionUsers.Remove((ApplicationUser)user);
             await _unitOfWork.Complete();
-            if(!await _unitOfWork.ApplictaionUsers.CheckAny())
+            if( _userManager.GetUserId(User) == user.Id)
             {
                 await _signInManager.SignOutAsync();
                 return Ok("empty");
@@ -175,7 +175,7 @@ namespace Shopping_Test.Controllers
                 return View(user);
             }
   
-            if (user.Email == applicationUser.Email && user.FirstName == applicationUser.FirstName &&user.LastName ==applicationUser.LastName)
+            if (user.Email == applicationUser.Email && user.FirstName == applicationUser.FirstName &&user.LastName ==applicationUser.LastName && applicationUser.EmailConfirmed == user.EmailConfirmed)
             {
                 ModelState.AddModelError("All", "It's the Same Email !");
                 return View(user);
@@ -185,6 +185,7 @@ namespace Shopping_Test.Controllers
             user.UserName = new MailAddress(applicationUser.Email).User;
             user.FirstName = applicationUser.FirstName;
             user.LastName = applicationUser.LastName;
+            user.EmailConfirmed = applicationUser.EmailConfirmed;
 
            await _unitOfWork.Complete();
 

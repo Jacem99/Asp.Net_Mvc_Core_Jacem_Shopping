@@ -22,7 +22,7 @@
         </div>
         <div class="col-4">
             <select class="form-control dropDownList" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
-                <option value="0" >Human Class</option>
+                <option value="0" >Human Type</option>
             </select>
         </div>
         <div class="col-4">
@@ -37,7 +37,7 @@
     <div class="row mt-4">
         @if (!Model.Product.Any())
         {
-            <div class="col-md-12 Notice">
+            <div class="col-md-12 Notice mt-3 shadow-lg">
                 <p class="alert alert-warning h5 text-center">No item founded up till now ..!</p>
             </div>
         }
@@ -48,7 +48,7 @@
         @foreach (var (item, index) in Model.Product.Select((value, i) => (value, i)))
         {
             <div class="container col-sm-9 col-md-4 col-lg-3 img_transformation divProduct mb-2">
-                <div class="card rounded-3" style="height: 420px">
+                <div class="card rounded-3 shadow-lg" style="height: 420px">
                     <img class="card-img-top " style="height:230px" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" alt="Product" />
                     <div class="card-body jj">
                         <p class="card-title text-muted" style="height:40px">
@@ -65,31 +65,27 @@
                         <div class="mb-2">
                             Discount: @item.Discount%
                         </div>
-                        @if (SignInManager.IsSignedIn(User))
-                        {
-
-                             if (!Model.userProducts.Any(p => p.ApplicationUserId == userId && p.ProductId == item.Id)){ 
-
-                                <div class="d-block show@(item.Id) mt-3">
+                      
+                                <div class=" show@(item.Id) mt-3">
                                     <a class="btn btn-success border rounded border-success card-link favourite w-100"
-                                       href="javascript:;" data-id="@item.Id" title="Add Favourite..">
+                                    href="javascript:;" data-id="@item.Id" title="Add Favourite..">
                                         <span style="font-size:16.5px">Favourite</span>
-                                        <i style="color:beige; font-size:16.5px" class="fa fa-heart fa-shield-heart"></i>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    @if (Model.userProducts.Any(p => p.ApplicationUserId == userId && p.ProductId == item.Id))
+                                    {
+                                        <i style="color:beige; font-size:16.5px" class="@("changeFavourite"+item.Id) bi bi-heart-fill "></i>
+                                    }else{
+                                        <i style="color:beige; font-size:16.5px" class="@("changeFavourite"+item.Id) bi bi-heart "></i>
+                                    }
+                                }
+                                else
+                                {
+                                    <i style="color:beige; font-size:16.5px" class="@("changeFavourite"+item.Id) bi bi-heart-fill"></i>
+                                }
                                     </a>
                                 </div>
-
-                            }
-                        }
-                        else
-                        {
-                            <div class="d-block show@(item.Id) mt-3">
-                                <a class="btn btn-success border rounded border-success card-link favourite w-100"
-                                   href="javascript:;" data-id="@item.Id" title="Add Favourite..">
-                                    <span style="font-size:16.5px">Favourite</span>
-                                    <i style="color:beige; font-size:16.5px" class="fa fa-heart fa-shield-heart"></i>
-                                </a>
-                            </div>
-                        }
+                     
                     </div>
                 </div>
             </div>
@@ -108,70 +104,97 @@
             $(".Categories").hide();
             $(".btn_search").hide();
         });
-        $("i").on("click", function () {
-            $(this).toggleClass("fa-shield-heart");
-        });
+
         $(".btn_categorey").click(function () {
             var innertext = $(this).text() == "Categories" ? "Close" : "Categories";
             $(this).text(innertext).toggleClass("btn-success").toggleClass("btn-danger");
             $(".btn_search").fadeToggle(200);
             $(".Categories").slideToggle(50);
         });
+
         $(".btn_search").click(function () {
             $(this).text("Category").toggleClass("btn-danger");
             $("#FormSelect").submit();
          });
 
-
-
-        //// Add Mount to Product
-        $(".show").click(function () {
-            $(".show_mount").removeClass("d-none");
-            $(".show").addClass("d-none");
-        });
-        $("#mount").keyup(function () {
-            var aData = $(".editMount");
-            aData.attr("data-id", $(this).val());
-            var data = aData.data("id");
-        })
-
-        $(".buy").on("click", function () {
-            var btn = $(this);
-            console.log(btn.data("id"));
-            $.ajax({
-                url: "/Card/addBuyed?Id=" + btn.data("id"),
-                success: function () {
-                    alert("Added");
-                    $(".show_mount").addClass("d-none");
-                    $(".show").removeClass("d-none");
-                },
-                error: function () {
-                    alert("Ther are Wrong");
-                    $(".show_mount").addClass("d-none");
-                    $(".show").removeClass("d-none");
-                }
-            });
-        });
-
-        // check user if login or not 
         $(".favourite").on("click", function () {
             var btn = $(this);
-            var selectClassShow = ".show" + btn.data("id");
             $.ajax({
-                url: "/Card/addFavourite?Id=" + btn.data("id"),
+                url: "/Card/UserIsSigned",
                 success: function (result) {
-                    if (result == "login") {
+                    if (result == "NotLogin") {
                         window.location.href = "/Identity/Account/Login";
                     }
                     else {
-                        alert("Added");
-                        $(selectClassShow).remove();
+                        var selectClassShow = ".changeFavourite" + btn.data("id");
+
+                        if ($(selectClassShow).hasClass("bi-heart-fill")) {
+                            $.ajax({
+                                url: "/Card/DeleteFavourite/" + btn.data("id"),
+                                type: "GET",
+                                success: function () {
+                                    $(selectClassShow).removeClass("bi-heart-fill").addClass("bi-heart");
+                                    console.log("delete");
+                                },
+                                error: function () {
+                                    alert("Some Thing Is Wrong!");
+                                }
+                            });
+                        }
+                        else {
+                            $.ajax({
+                                url: "/Card/addFavourite?Id=" + btn.data("id"),
+                                success: function (result) {
+                                    $(selectClassShow).removeClass("bi-heart").addClass("bi-heart-fill");
+                                    console.log("Added");
+                                },
+                                error: function () {
+                                    alert("Some Thing Is Wrong!");
+                                }
+                            });
+                        }
+
+
+                        $(selectClassShow).toggleClass("bi-heart-fill").toggleClass("bi-heart");
                     }
                 },
                 error: function () {
-                    alert("Ther are Wrong");
+                    alert("Some thing is error !");
                 }
             });
         });
+
+        //// Add Mount to Product
+        // $(".show").click(function () {
+        //     $(".show_mount").removeClass("d-none");
+        //     $(".show").addClass("d-none");
+        // });
+        // $("#mount").keyup(function () {
+        //     var aData = $(".editMount");
+        //     aData.attr("data-id", $(this).val());
+        //     var data = aData.data("id");
+        // })
+
+        // $(".buy").on("click", function () {
+        //     var btn = $(this);
+        //     console.log(btn.data("id"));
+        //     $.ajax({
+        //         url: "/Card/addBuyed?Id=" + btn.data("id"),
+        //         success: function () {
+        //             alert("Added");
+        //             $(".show_mount").addClass("d-none");
+        //             $(".show").removeClass("d-none");
+        //         },
+        //         error: function () {
+        //             alert("Ther are Wrong");
+        //             $(".show_mount").addClass("d-none");
+        //             $(".show").removeClass("d-none");
+        //         }
+        //     });
+        // });
+
+
+        // check user if login or not 
+        
     </script>
 }

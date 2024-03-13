@@ -1,5 +1,4 @@
 ﻿
-
 namespace Shopping_Test.Controllers
 {
    /*[Authorize]*/
@@ -45,29 +44,38 @@ namespace Shopping_Test.Controllers
             return View(buyedCards);
         }
 
-        [AllowAnonymous]
+
+        private string? UserId() =>  User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        [HttpGet]
+        public ActionResult UserIsSigned()
+        {
+            if (UserId() == null)
+            {
+                return Ok("NotLogin");
+            };
+            return Ok("Login");
+        }
+
+            [AllowAnonymous]
         public async Task<ActionResult> addFavourite(string Id)
         {
             ///Identity/Account/Login
-            var productId = Convert.ToInt32(Id);
-           var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if(userId == null)
-            {
-                return Ok("login");
-            };
+            
+            int productId = Convert.ToInt32(Id);
             UserProducts userProducts = new UserProducts
             {
-                ApplicationUserId = userId,
+                ApplicationUserId = UserId(),
                 ProductId = productId
             };
-            var checkFavourite = await _unitOfWork.Cards.FindByCriteria(f => f.ApplicationUserId == userId && f.ProductId == productId );
+            var checkFavourite = await _unitOfWork.Cards.FindByCriteria(f => f.ApplicationUserId == UserId() && f.ProductId == productId );
             if (checkFavourite is null)
             {
                 Card card = new Card
                 {
                     Favourite = true,
                     Buyed = false,
-                    ApplicationUserId = userId,
+                    ApplicationUserId = UserId(),
                     ProductId = productId,
                     mount = 1
                 };
@@ -84,24 +92,20 @@ namespace Shopping_Test.Controllers
                
                 return Ok();
             }
-            else if (checkFavourite != null)
+           
+            if (checkFavourite.Buyed == true && checkFavourite.Favourite == false)
             {
-                if (checkFavourite.Buyed == true && checkFavourite.Favourite == false)
-                {
-                    checkFavourite.Favourite = true;
-                    await _unitOfWork.UserProducts.Add(userProducts);
-                    await _unitOfWork.Complete();
-                    return Ok();
-                }
-             };
+                checkFavourite.Favourite = true;
+                await _unitOfWork.UserProducts.Add(userProducts);
+                await _unitOfWork.Complete();
+            }
             return Ok();
         }
         [HttpGet]
         public async Task<ActionResult> addBuyed(addBuyed addBuyed)
         {
-            string? idUser = _userManager.GetUserId(User);
-
-            var checkBuyed = await _unitOfWork.Cards.FindByCriteria(f => f.ApplicationUserId == idUser &&  f.ProductId == addBuyed.ProductId );
+           
+            var checkBuyed = await _unitOfWork.Cards.FindByCriteria(f => f.ApplicationUserId == UserId() &&  f.ProductId == addBuyed.ProductId );
             if (checkBuyed is not null)
             {
                 if (checkBuyed.Favourite==true && checkBuyed.Buyed==false)
@@ -121,10 +125,10 @@ namespace Shopping_Test.Controllers
                 return Ok();
         }
 
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var Id = Convert.ToInt32(id);
-            var card = await _unitOfWork.Cards.FindByCriteria(c=> c.Id == id);
+            int Id = Convert.ToInt32(id);
+            var card = await _unitOfWork.Cards.FindByCriteria(c=> c.Id == Id);
             if (card is null)
             {
                 return Ok();
@@ -135,15 +139,16 @@ namespace Shopping_Test.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> DeleteFavourite(int id)
+        public async Task<IActionResult> DeleteFavourite(string id)
         {
-            var Id = Convert.ToInt32(id);
-            var card = await _unitOfWork.Cards.FindByCriteria(c=> c.Id == id);
+            var productId = Convert.ToInt32(id);
+            var card = await _unitOfWork.Cards.FindByCriteria(c=> c.ApplicationUserId == UserId() && c.ProductId == productId);
             if (card is null)
             {
                 return Ok();
             }
-            UserProducts userProducts =await _unitOfWork.UserProducts.FindByCriteria(u => u.ProductId == card.ProductId);
+            UserProducts userProducts =await _unitOfWork.UserProducts.FindByCriteria(u =>u.ApplicationUserId == card.ApplicationUserId && u.ProductId == card.ProductId);
+
             if(card.Favourite ==true && card.Buyed == false)
             {
                 if (userProducts != null)
@@ -156,7 +161,6 @@ namespace Shopping_Test.Controllers
                 card.Favourite = false;
                 if (userProducts != null)
                     _unitOfWork.UserProducts.Remove(userProducts);
-
             }
             await _unitOfWork.Complete();
             return Ok();

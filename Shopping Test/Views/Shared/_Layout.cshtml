@@ -6,19 +6,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Shopping_Test</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/bootstrap-icons/font/bootstrap-icons.min.css" rel="stylesheet" />
+
+    <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="~/Shopping_Test.styles.css" asp-append-version="true" />
+
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark text-white border-bottom box-shadow mb-3 p-1">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark text-white border-bottom shadow-lg mb-3 p-1">
             <div class="container-fluid">
                 <a class="navbar-brand fw-bolder" style="color:#198754 ; text-shadow: 1px 1px #aa949e; font-size:30px;" asp-area="" asp-controller="Home" asp-action="Index">Shopping</a>
                 @{
                     if (User.IsInRole(Permissions.Admin))
                     {
-                        <a class="fw-bolder h5 text-white mt-3 mx-3 text-decoration-none" asp-area="" asp-controller="Admin" asp-action="Index">DashBoard</a>
+                        <a class="fw-bolder h5 mt-3 mx-3 text-decoration-none colorLinksNavBar" asp-area="" asp-controller="Admin" asp-action="Index">DashBoard</a>
                     }
 
                   }
@@ -26,10 +32,10 @@
                     if (SignInManager.IsSignedIn(User))
                     {
 
-                        <a class="fw-bolder h5 text-white mt-3 mx-3 text-decoration-none" asp-area="" asp-controller="Card" asp-action="Index">Card</a>
+                        <a class="fw-bolder h5 mt-3 mx-3 text-decoration-none colorLinksNavBar" asp-area="" asp-controller="Card" asp-action="Index">Card</a>
                     }
                   }
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler colorLinksNavBar" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon" ></span>
                 </button>
@@ -52,6 +58,7 @@
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/font-awesome/js/fontawesome.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

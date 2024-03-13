@@ -98,7 +98,7 @@ namespace Shopping_Test.CoreIUnitOfWork
 
             return await query.AsNoTracking().ToListAsync();
         }
-      
+
         public async Task<T> Add(T model)
         {
             await _dbContext.Set<T>().AddAsync(model);

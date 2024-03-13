@@ -11,17 +11,22 @@ namespace Shopping_Test.Controllers
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessImage _processImage;
         private readonly IGetSelectListItems _getSelectListItems;
-        public ProductController(IUnitOfWork unitOfWork , IProcessImage processImage, IGetSelectListItems getSelectListItems)
+        private readonly IProxyResultOfProducts _proxyResultOfProducts;
+        public ProductController(IProxyResultOfProducts proxyResultOfProducts,
+            IUnitOfWork unitOfWork , IProcessImage processImage, IGetSelectListItems getSelectListItems)
         {
             _unitOfWork = unitOfWork;
             _processImage = processImage;
             _getSelectListItems = getSelectListItems;
+            _proxyResultOfProducts = proxyResultOfProducts;
     }
 
 
-        public async Task< IActionResult> Index()=> 
-            View(await _unitOfWork.Products.GetAll(new[] { "Marka" }));
-        
+        public async Task<IActionResult> Index(ClassProduct classProduct)
+        {
+            // using redis without it      
+            return View(await _proxyResultOfProducts.GetResultOfProducts(classProduct));
+        }
         private async Task< IActionResult> Extention(ViewProducts viewProducts ,string view)
         {
             ModelState.AddModelError("product.Image", "Must have one of extentions from PNG,JPG ");

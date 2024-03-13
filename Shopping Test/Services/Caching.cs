@@ -8,7 +8,7 @@ namespace Shopping_Test.Services
         IDatabase _cachDb;
         public Caching()
         {
-            var redis = ConnectionMultiplexer.Connect("");
+            var redis = ConnectionMultiplexer.Connect("localhost:7089");
             _cachDb = redis.GetDatabase();
         }
         public object DeleteData<T>(string key) where T : class
@@ -19,7 +19,7 @@ namespace Shopping_Test.Services
             return false;
         }
 
-        public T Get<T>(string key) where T : class
+        public T GetData<T>(string key) where T : class
         {
             var value = _cachDb.StringGet(key);
             if (!string.IsNullOrEmpty(value))
@@ -32,5 +32,6 @@ namespace Shopping_Test.Services
             var expiryTime = expirationTime.DateTime.Subtract(DateTime.Now);
             return _cachDb.StringSet(key ,JsonSerializer.Serialize<T>(value), expiryTime);
         }
+       
     }
 }

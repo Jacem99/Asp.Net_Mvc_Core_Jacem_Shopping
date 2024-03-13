@@ -6,8 +6,8 @@
 
 <div class="container p-3">
 <h1 class="alert fw-bold text-success text-center p-2">Marka</h1>
-    <div class="divCenter cartsofCart shadow-lg mt-4">
-    <div><a class="btn btn-primary ml-3 mt-2" asp-action="Modify">Create</a></div>
+    <div class="divCenter cartsofCart shadow-lg mt-4 p-3">
+    <div><a class="btn btn-success ml-3 mt-2" asp-action="Modify">Create</a></div>
     <div class="col-11 mt-1">
         <table class="table table-hover rounded">
             <thead>
@@ -39,9 +39,7 @@
        $(document).ready(function () {
            $(".delete").click(function () {
                var btn = $(this);
-               var result = confirm("Are you sure to delete ?");
-               if (result) {
-                   $.ajax({
+               $.ajax({
                        url: "/Marka/Delete/" + btn.data("id"),
                        type: "GET",
                        success: function () {
@@ -51,7 +49,6 @@
                            confirm("Some Thing is Wrong !");
                        }
                    });
-               }
            });
        })
     </script>

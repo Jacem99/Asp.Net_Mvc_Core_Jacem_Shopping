@@ -29,7 +29,7 @@ namespace Shopping_Test.Controllers
         {
             if (id == null)
             {
-                IdentityRole role = new IdentityRole { Id =null};
+                IdentityRole role = new IdentityRole {Id = string.Empty };
                 return View(role);
             }
             var CheckRole = await _dbContext.Roles.FindAsync(id);
@@ -42,9 +42,7 @@ namespace Shopping_Test.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Modify(IdentityRole Role)
         {
-            if (!ModelState.IsValid)
-                return View(ModelState);
-
+            
             if (Role.Name == null)
             {
                 ModelState.AddModelError("Name", "Name is Empty!");
@@ -53,6 +51,7 @@ namespace Shopping_Test.Controllers
 
             if (await _dbContext.Roles.AnyAsync(n => n.Name == Role.Name))
             {
+                Role.Id = string.Empty;
                 ModelState.AddModelError("Name", "Name is Exist !");
                 return View(Role);
             }
