@@ -41,7 +41,7 @@
            $(".delete").click(function () {
                var btn = $(this);
             $.ajax({
-                       url: "/Marka/Delete/" + btn.data("id"),
+                       url: "/AgeStages/Delete/" + btn.data("id"),
                        type: "GET",
                        success: function () {
                            btn.parents("tr").fadeOut();

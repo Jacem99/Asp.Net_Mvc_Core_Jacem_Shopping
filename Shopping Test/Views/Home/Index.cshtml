@@ -9,32 +9,35 @@
         <p class="h1 fw-bold text" style="color:#198754; text-shadow:2px 2px #ffaffa">Shoping E-Commerce</p>
     </div>
     <div>
-        <button class="btn btn-outline-secondary btn_search mx-1">Shearch</button>
-        <button class="btn btn-success btn_categorey mx-1 text-white">Categories</button>
+        <button class="btn btn-outline-secondary btn_search mx-1 p-2">Shearch</button>
+        <button class="btn btn-success btn_categorey mx-1 text-white p-2">Categories</button>
     </div>
  </div>
-<div class="col-12 mb-2 mt-1 p-1 Categories ">
-    <form method="post" asp-action="Index" id="FormSelect" class="col-12 d-flex justify-content-between">
-        <div class="col-4">
-            <select class="form-control dropDownList" id="AgeStagesId" asp-for="AgeStagesId" asp-items="@(new SelectList(Model.AgeStages,"Id","Name"));">
-                <option value="0" >Age</option>
-            </select>
-        </div>
-        <div class="col-4">
-            <select class="form-control dropDownList" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
-                <option value="0" >Human Type</option>
-            </select>
-        </div>
-        <div class="col-4">
-            <select class="form-control dropDownList" id="ClothesClassificationsId" asp-for="ClothesClassificationsId" asp-items="@(new SelectList(Model.ClothesClassifications,"Id","Name"));">
-                <option value="0" >Products</option>
-            </select>
-        </div>
-    </form>
-</div>
+<div class="col-12 mb-2 mt-1 p-1 Categories d-flex justify-content-center">
+    <div class="w-75">
+        <form method="post" asp-action="Index" id="FormSelect" class="col-12 d-flex justify-content-between">
+            <div class="col-4">
+                <select class="form-control dropDownList p-3" id="AgeStagesId" asp-for="AgeStagesId" asp-items="@(new SelectList(Model.AgeStages,"Id","Name"));">
+                    <option value="0">Age</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <select class="form-control dropDownList p-3" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
+                    <option value="0">Human Type</option>
+                </select>
+            </div>
+            <div class="col-4">
+                <select class="form-control dropDownList p-3" id="ClothesClassificationsId" asp-for="ClothesClassificationsId" asp-items="@(new SelectList(Model.ClothesClassifications,"Id","Name"));">
+                    <option value="0">Products</option>
+                </select>
+            </div>
+        </form>
+    </div>
+ </div>
 
-<div class="container border shadow-lg rounded-3">
-    <div class="row mt-4">
+
+<div class="container border shadow-lg rounded-3 p-4">
+    <div class="row mt-3 container">
         @if (!Model.Product.Any())
         {
             <div class="col-md-12 Notice mt-3 shadow-lg">
@@ -47,10 +50,12 @@
 
         @foreach (var (item, index) in Model.Product.Select((value, i) => (value, i)))
         {
-            <div class="container col-sm-9 col-md-4 col-lg-3 img_transformation divProduct mb-2">
+            <div class="col-sm-9 col-md-4 col-lg-3 img_transformation divProduct mb-2">
                 <div class="card rounded-3 shadow-lg" style="height: 420px">
-                    <img class="card-img-top " style="height:230px" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" alt="Product" />
-                    <div class="card-body jj">
+                    <div class="overflow-hidden rounded-3">
+                        <img class="card-img-top " style="height:230px" src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.NameOfImage}")" alt="Product" />
+                    </div>
+                     <div class="card-body jj rounded-3">
                         <p class="card-title text-muted" style="height:40px">
                             @(item.Title.Length > 27 ? $"{item.Title.Substring(0, 45)}.." : item.Title)
                         </p>

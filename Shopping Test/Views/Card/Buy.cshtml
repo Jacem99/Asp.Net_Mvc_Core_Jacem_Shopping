@@ -18,7 +18,7 @@
         <div class="row mt-3">
             @foreach (var item in Model)
             {
-                <div class="col-md-6 mb-2 removeDiv ">
+                <div class="col-md-4 mb-2 removeDiv ">
                     <div class="d-flex cartsofCart shadow-lg">
                     <img style="height:165px" alt="Product" class="w-25 col-3 " src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.Products?.NameOfImage}")" />
                         <div class="container col-9 d-flex justify-content-between flex-column fieldsOfCarts">
@@ -91,7 +91,7 @@
                     $.ajax({
                         url: "/Card/DeleteBuyed/" + btn.data("id"),
                         success: function () {
-                            btn.parents(".removeDiv").fadeIn();
+                            btn.parents(".removeDiv").remove();
                         },
                         error: function () {
                             alert("Some thing is wrong");

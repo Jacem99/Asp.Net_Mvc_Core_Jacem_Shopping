@@ -8,7 +8,9 @@ namespace Shopping_Test.Services
         IDatabase _cachDb;
         public Caching()
         {
-            var redis = ConnectionMultiplexer.Connect("localhost:7089");
+            ConfigurationOptions configurationOptions = new ConfigurationOptions();
+            configurationOptions.AbortOnConnectFail = false;
+            var redis = ConnectionMultiplexer.Connect("6379");
             _cachDb = redis.GetDatabase();
         }
         public object DeleteData<T>(string key) where T : class

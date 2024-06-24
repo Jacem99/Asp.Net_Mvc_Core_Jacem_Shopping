@@ -17,7 +17,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>
           .AddDefaultTokenProviders()
           .AddDefaultUI();
 
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+/*builder.Services.AddDatabaseDeveloperPageExceptionFilter();*/
 
 builder.Services.AddAuthentication(option =>
  {
@@ -52,7 +52,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+    /*app.UseMigrationsEndPoint();*/
 }
 else
 {

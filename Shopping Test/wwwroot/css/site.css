@@ -69,7 +69,7 @@ body { margin-bottom: 60px;}
 .cartsofCart {
     overflow: hidden;
     border-top-left-radius: 1rem;
-    border-top-right-radius: 4rem;
+    border-top-right-radius: 2rem;
     border-bottom-left-radius: 1rem;
     border-bottom-right-radius: 1rem;
 }
@@ -93,6 +93,7 @@ input[type=number] {
     color: white;
     background-color: #198754;
     text-align:center;
+    font-size:18px !important;
 }
 
 .div_role a{
@@ -117,7 +118,7 @@ input[type=number] {
         
     }*/
 img {
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .img_transformation {
@@ -132,3 +133,9 @@ img {
     .img_transformation .jj:hover {
         transform: translate(.8px,.8px);
     }
+.jj {
+    background-color: #f1f2cc;
+}
+.rounded-3 {
+    border-radius: 1.5rem !important;
+}
