@@ -4,12 +4,19 @@ using Shopping_Test.CoreIUnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages()
+    .AddRazorRuntimeCompilation();
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+builder.Services.AddDistributedRedisCache(option =>
+{
+      option.InstanceName = "redis";
+      option.Configuration = "localhost:6379";
+});
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>
     (options => options.SignIn.RequireConfirmedAccount = true)

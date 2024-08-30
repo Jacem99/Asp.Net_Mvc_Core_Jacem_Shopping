@@ -6,13 +6,15 @@ namespace Shopping_Test.Services
     public class ProxyResultOfProducts : IProxyResultOfProducts
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IGetSelectListItems _getSelectListItems;
         private readonly IConditionClassification _ConditionClass;
 
-        public ProxyResultOfProducts(
+        public ProxyResultOfProducts(IGetSelectListItems getSelectListItems,
             IConditionClassification ConditionClass ,
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+          _getSelectListItems = getSelectListItems;
             _ConditionClass = ConditionClass;
         }
         public async Task<classificationsOfProducts> GetResultOfProducts(ClassProduct classProduct)
@@ -20,9 +22,9 @@ namespace Shopping_Test.Services
 
             classificationsOfProducts classifyOfProducts = new classificationsOfProducts
             {
-                ClothesClassifications = await _unitOfWork.ClothesClassifications.GetAll(c => c.Name, OrderBy.Ascending),
-                HumanClassifications = await _unitOfWork.HumanClasses.GetAll(m => m.Name, OrderBy.Ascending),
-                AgeStages = await _unitOfWork.AgeStages.GetAll(a => a.Name, OrderBy.Ascending),
+                ClothesClassifications = await _getSelectListItems.ClothsCalssification(),
+                HumanClasses = await  _getSelectListItems.HumanClass(),
+                AgeStages = await _getSelectListItems.AgeStages(),
                 userProducts = await _unitOfWork.UserProducts.GetAll()
             };
 

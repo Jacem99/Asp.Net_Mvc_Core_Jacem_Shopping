@@ -20,17 +20,17 @@
                 <div class="w-75">
                 <form method="post" asp-action="Index" asp-controller="Product" id="FormSelect" class="col-12 d-flex container">
                     <div class="col-4">
-                        <select class="form-control dropDownList p-3" id="AgeStagesId" asp-for="AgeStagesId" asp-items="@(new SelectList(Model.AgeStages,"Id","Name"));">
+                        <select class="form-control dropDownList p-3" id="AgeStagesId" asp-for="AgeStageId" asp-items="Model.AgeStages">
                             <option value="0">Age</option>
                         </select>
                     </div>
                     <div class="col-4">
-                        <select class="form-control dropDownList p-3" id="HumanClassificationsId" asp-for="HumanClassificationsId" asp-items="@(new SelectList(Model.HumanClassifications,"Id","Name"));">
+                        <select class="form-control dropDownList p-3" id="HumanClassificationsId" asp-for="HumanClasses" asp-items="Model.HumanClasses">
                             <option value="0">Human Type</option>
                         </select>
                     </div>
                     <div class="col-4">
-                        <select class="form-control dropDownList p-3" id="ClothesClassificationsId" asp-for="ClothesClassificationsId" asp-items="@(new SelectList(Model.ClothesClassifications,"Id","Name"));">
+                        <select class="form-control dropDownList p-3" id="ClothesClassificationsId" asp-for="ClothesClassificationId" asp-items="Model.ClothesClassifications">
                             <option value="0">Products</option>
                         </select>
                     </div>
