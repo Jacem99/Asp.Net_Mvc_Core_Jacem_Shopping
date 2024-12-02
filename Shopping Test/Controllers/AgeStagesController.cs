@@ -28,8 +28,6 @@ namespace Shopping_Test.Controllers
             return View(CheckHuman);
         }
 
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Modify(AgeStage AgeStage)
@@ -57,7 +55,7 @@ namespace Shopping_Test.Controllers
                     Name = AgeStage.Name
                 };
                 await _unitOfWork.AgeStages.Add(ageStage);
-            }
+                            }
             else
             {
                 var ageStage = await _unitOfWork.AgeStages.FindByCriteria(m => m.Id == AgeStage.Id);
@@ -68,6 +66,8 @@ namespace Shopping_Test.Controllers
                 ageStage.Name = AgeStage.Name;
             }
             await _unitOfWork.Complete();
+            await _unitOfWork.caching.SetItems(NameModels.AgeStages, await _unitOfWork.getListItems.AgeStages());
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -82,6 +82,9 @@ namespace Shopping_Test.Controllers
                 return NotFound();
             _unitOfWork.AgeStages.Remove(AgeStage);
             await _unitOfWork.Complete();
+
+            await _unitOfWork.caching.SetItems(NameModels.AgeStages, await _unitOfWork.getListItems.AgeStages());
+
             return Ok();
         }
     }

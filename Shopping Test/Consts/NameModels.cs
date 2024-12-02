@@ -2,9 +2,9 @@
 {
     public static class NameModels
     {
-        public const string AgeStage = "AgeStage";
+        public const string AgeStages = "AgeStages";
         public const string HumanClass = "HumanClass";
-        public const string Marka = "Marka";
+        public const string Markas = "Markas";
         public const string Roles = "Roles";
         public const string ClothesClassification = "ClothesClassification";
     }

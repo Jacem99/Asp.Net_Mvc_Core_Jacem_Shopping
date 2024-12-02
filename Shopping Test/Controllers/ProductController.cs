@@ -10,14 +10,14 @@ namespace Shopping_Test.Controllers
         private readonly List<string> _arrayOfExtentions = new() { ".png", ".jpg" };
         private readonly IUnitOfWork _unitOfWork;
         private readonly IProcessImage _processImage;
-        private readonly IGetSelectListItems _getSelectListItems;
+        private readonly IProxyGetListItems _proxyGetListItems;
         private readonly IProxyResultOfProducts _proxyResultOfProducts;
         public ProductController(IProxyResultOfProducts proxyResultOfProducts,
-            IUnitOfWork unitOfWork , IProcessImage processImage, IGetSelectListItems getSelectListItems)
+            IUnitOfWork unitOfWork , IProcessImage processImage, IProxyGetListItems proxyGetListItems)
         {
             _unitOfWork = unitOfWork;
             _processImage = processImage;
-            _getSelectListItems = getSelectListItems;
+            _proxyGetListItems = proxyGetListItems;
             _proxyResultOfProducts = proxyResultOfProducts;
     }
 
@@ -30,23 +30,23 @@ namespace Shopping_Test.Controllers
         private async Task< IActionResult> Extention(ViewProducts viewProducts ,string view)
         {
             ModelState.AddModelError("product.Image", "Must have one of extentions from PNG,JPG ");
-            return View(view, await GetSelectItem(viewProducts));
+            return View(view, await GetSelectItems(viewProducts));
         }
         private async Task<IActionResult> Rate(ViewProducts viewProducts , string view)
         {
             ModelState.AddModelError("All", "Please Choice Rate less than or equal 5");
-            return View(view, await GetSelectItem(viewProducts));
+            return View(view, await GetSelectItems(viewProducts));
         }
         private async Task<IActionResult> Price(ViewProducts viewProducts , string view)
         {
             ModelState.AddModelError("All", "Please Enter price correct for product..!");
-            return View(view, await GetSelectItem(viewProducts));
+            return View(view, await GetSelectItems(viewProducts));
         }
        
         public async Task<IActionResult> Edit(int id)
         {
             ViewProducts viewProducts = new ViewProducts {};
-            var vProduct = await GetSelectItem(viewProducts);
+            var vProduct = await GetSelectItems(viewProducts);
             vProduct.product = await _unitOfWork.Products.FindByCriteria(p => p.Id == id);
            return View(vProduct);
         }
@@ -54,18 +54,17 @@ namespace Shopping_Test.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(ViewProducts viewProducts)
-        { 
+        {
+            /*     if (!ModelState.IsValid)
+          {
+              return View(await GetSelectItem(viewProducts));
+          } */
             var product = await _unitOfWork.Products.FindByCriteria(p=> p.Id == viewProducts.product.Id);
             if (product == null)
                 return BadRequest();
 
             if (viewProducts == null)
                 return BadRequest();
-
-            /*if (!ModelState.IsValid)
-            {
-                return View(await GetSelectItem(viewProducts));
-            }*/
 
             var nameOfFile = _processImage.nameOfFile(viewProducts.Image);
             await _processImage.stream(FileSettings.imageProduct, viewProducts.Image , nameOfFile);
@@ -101,7 +100,7 @@ namespace Shopping_Test.Controllers
         public async Task<IActionResult> Create()
         {
             ViewProducts viewProducts = new ViewProducts { };
-            return View(await GetSelectItem(viewProducts));
+            return View(await GetSelectItems(viewProducts));
         }
 
         [HttpPost]
@@ -116,7 +115,7 @@ namespace Shopping_Test.Controllers
             if (viewProducts.Image==null)
             {
                 ModelState.AddModelError("product.Image", "Please Select Image Product !");
-                return View(await GetSelectItem(viewProducts));
+                return View(await GetSelectItems(viewProducts));
             }
             var nameOfFile = _processImage.nameOfFile(viewProducts.Image);
             await _processImage.stream(FileSettings.imageProduct,viewProducts.Image,nameOfFile);
@@ -154,12 +153,12 @@ namespace Shopping_Test.Controllers
             await _unitOfWork.Complete();
             return RedirectToAction(nameof(Index));
         }
-        private async Task<ViewProducts> GetSelectItem(ViewProducts viewProducts)
+        private async Task<ViewProducts> GetSelectItems(ViewProducts viewProducts)
         {
-            viewProducts.Markas = await _getSelectListItems.Markas();
-            viewProducts.ClothesClassifications = await _getSelectListItems.ClothsCalssification();
-            viewProducts.AgeStage = await _getSelectListItems.AgeStages();
-            viewProducts.HumanClasses = await _getSelectListItems.HumanClass();
+            viewProducts.Markas = await _proxyGetListItems.Markas();
+            viewProducts.ClothesClassifications = await _proxyGetListItems.ClothsCalssification();
+            viewProducts.AgeStage = await _proxyGetListItems.AgeStages();
+            viewProducts.HumanClasses = await _proxyGetListItems.HumanClass();
            
             return viewProducts;
         }

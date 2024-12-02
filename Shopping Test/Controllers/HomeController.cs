@@ -5,13 +5,13 @@ namespace Shopping_Test.Controllers
     {
         private readonly IProxyResultOfProducts _proxyResultOfProducts;
         private readonly IProcessImage _processImage;
-        private readonly IGetSelectListItems _getSelectListItems;
+        private readonly IProxyGetListItems _getSelectListItems;
         private readonly IUnitOfWork _unitOfWork;
 
         public HomeController(IProxyResultOfProducts proxyResultOfProducts,
                               IProcessImage processImage,
                               IUnitOfWork unitOfWork,
-                              IGetSelectListItems getSelectListItems)
+                              IProxyGetListItems getSelectListItems)
         {
             _proxyResultOfProducts = proxyResultOfProducts;
             _processImage = processImage;

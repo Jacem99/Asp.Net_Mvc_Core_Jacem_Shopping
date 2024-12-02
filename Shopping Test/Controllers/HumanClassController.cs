@@ -68,6 +68,8 @@ namespace Shopping_Test.Controllers
                 human.Name = humanClass.Name;
             }
             await _unitOfWork.Complete();
+            await _unitOfWork.caching.SetItems(NameModels.HumanClass, await _unitOfWork.getListItems.HumanClass());
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -82,6 +84,8 @@ namespace Shopping_Test.Controllers
                 return NotFound();
             _unitOfWork.HumanClasses.Remove(humanClass);
             await _unitOfWork.Complete();
+            await _unitOfWork.caching.SetItems(NameModels.HumanClass, await _unitOfWork.getListItems.HumanClass());
+
             return Ok();
         }
     }

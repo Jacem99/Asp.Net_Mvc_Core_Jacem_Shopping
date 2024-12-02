@@ -66,6 +66,8 @@ namespace Shopping_Test.Controllers
                 catogery.Name = Catogery.Name;
             }
             await _unitOfWork.Complete();
+            await _unitOfWork.caching.SetItems(NameModels.ClothesClassification, await _unitOfWork.getListItems.ClothsCalssification());
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -79,6 +81,9 @@ namespace Shopping_Test.Controllers
                 return NotFound();
             _unitOfWork.ClothesClassifications.Remove(catogery);
             await _unitOfWork.Complete();
+
+            await _unitOfWork.caching.SetItems(NameModels.ClothesClassification, await _unitOfWork.getListItems.ClothsCalssification());
+
             return Ok();
         }
     }

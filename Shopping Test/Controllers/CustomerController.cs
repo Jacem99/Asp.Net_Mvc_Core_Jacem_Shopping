@@ -9,7 +9,7 @@ namespace Shopping_Test.Controllers
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IGetSelectListItems _getSelectListItems;
+        private readonly IProxyGetListItems _getSelectListItems;
 
         private readonly IUnitOfWork _unitOfWork;
         
@@ -17,7 +17,7 @@ namespace Shopping_Test.Controllers
             UserManager<ApplicationUser> userManager,
              SignInManager<ApplicationUser> signInManager,
            IUnitOfWork unitOfWork,
-           IGetSelectListItems getSelectListItems
+           IProxyGetListItems getSelectListItems
             )
         {
             _userManager = userManager;

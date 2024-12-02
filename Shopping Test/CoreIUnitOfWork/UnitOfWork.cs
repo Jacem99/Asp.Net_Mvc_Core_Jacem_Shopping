@@ -1,8 +1,13 @@
-﻿namespace Shopping_Test.CoreIUnitOfWork
+﻿
+using Microsoft.Extensions.Caching.Distributed;
+
+namespace Shopping_Test.CoreIUnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
+        private readonly IDistributedCache _distributedCache;
+      
        
         public IBaseRepository<AgeStage> AgeStages { get; private set; }
         public IBaseRepository<ApplicationUser> ApplictaionUsers { get; private set; }
@@ -16,10 +21,16 @@
         public IBaseRepository<RevesationSystem> RevesationSystems { get; private set; }
         public IBaseRepository<UserProducts> UserProducts { get; private set; }
 
+        public ICaching caching {get; private set;}
+        public IGetListItems getListItems {get; private set;}
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext context, IDistributedCache distributedCache)
         {
             _context = context;
+            _distributedCache = distributedCache;
+            getListItems = new GetListItems(_context);
+            caching = new Caching(_context, _distributedCache);
+
             AgeStages = new BaseRepository<AgeStage>(_context);
             ApplictaionUsers = new BaseRepository<ApplicationUser>(_context);
             Cards = new BaseRepository<Card>(_context);
@@ -31,6 +42,7 @@
             Products = new BaseRepository<Product>(_context);
             RevesationSystems = new BaseRepository<RevesationSystem>(_context);
             UserProducts = new BaseRepository<UserProducts>(_context);
+          
         }
 
         public void Dispose() { _context.Dispose(); }

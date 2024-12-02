@@ -22,7 +22,7 @@
             @foreach (var (item, index) in Model.Select((value, i) => (value, i)))
             {
                 <div class="col-md-4 mb-2 cartDeleted">
-                    <div class="d-flex cartsofCart shadow-lg">
+                    <div class="d-flex cartsofCart shadow">
                         <img style="height:165px" alt="Product" class="w-25 col-3 " src="@($"{FileSettings.imagePath}/{FileSettings.imageProduct}/{item.Products?.NameOfImage}")" />
                         <div class="container col-9 d-flex justify-content-between flex-column fieldsOfCarts ">
                             <div class="fw-bold mt-2 text-break">

@@ -1,39 +1,40 @@
 ﻿
+using Microsoft.Extensions.Caching.Distributed;
+using Newtonsoft.Json;
 using StackExchange.Redis;
+using System.Data;
 
 namespace Shopping_Test.Services
 {
     public class Caching : ICaching
+
     {
-        IDatabase _cachDb;
-        public Caching()
+        private readonly ApplicationDbContext _context;
+        private readonly IDistributedCache _distributedCache;
+
+        public Caching(ApplicationDbContext context,IDistributedCache distributedCache)
         {
-            ConfigurationOptions configurationOptions = new ConfigurationOptions();
-            configurationOptions.AbortOnConnectFail = false;
-            var redis = ConnectionMultiplexer.Connect("6379");
-            _cachDb = redis.GetDatabase();
-        }
-        public object DeleteData<T>(string key) where T : class
-        {
-           var _exist = _cachDb.KeyExists(key);
-            if( _exist ) 
-                return _cachDb.KeyDelete(key);
-            return false;
+            _context = context;
+            _distributedCache = distributedCache;
         }
 
-        public T GetData<T>(string key) where T : class
+        public async Task<string> GetItems(string key)
         {
-            var value = _cachDb.StringGet(key);
-            if (!string.IsNullOrEmpty(value))
-                return JsonSerializer.Deserialize<T>(value);
-            return default;
+           return await _distributedCache.GetStringAsync(key);
+                
+        }
+        public async Task<List<SelectListItem>> GetItemsByDeserialize(string key)
+        {
+            var itemKey = await _distributedCache.GetStringAsync(key);
+
+            return JsonConvert.DeserializeObject<List<SelectListItem>>(itemKey);
         }
 
-        public bool SetData<T>(string key, T value, DateTimeOffset expirationTime) where T : class
+        public async Task SetItems(string key, List<SelectListItem> Value) 
         {
-            var expiryTime = expirationTime.DateTime.Subtract(DateTime.Now);
-            return _cachDb.StringSet(key ,JsonSerializer.Serialize<T>(value), expiryTime);
+           await _distributedCache.SetStringAsync(key , JsonConvert.SerializeObject(Value)); 
         }
-       
+
+      
     }
 }

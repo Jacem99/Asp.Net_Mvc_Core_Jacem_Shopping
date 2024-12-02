@@ -68,6 +68,8 @@ namespace Shopping_Test.Controllers
                 marka.Name = Marka.Name;
             }
             await _unitOfWork.Complete();
+            await _unitOfWork.caching.SetItems(NameModels.Markas, await _unitOfWork.getListItems.Markas());
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -82,6 +84,8 @@ namespace Shopping_Test.Controllers
                 return NotFound();
             _unitOfWork.Markas.Remove(marka);
             await _unitOfWork.Complete();
+            await _unitOfWork.caching.SetItems(NameModels.Markas, await _unitOfWork.getListItems.Markas());
+
             return Ok();
         }
     }

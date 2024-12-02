@@ -1,9 +1,14 @@
-﻿namespace Shopping_Test.IServices
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Shopping_Test.IServices
 {
-    public interface ICaching
+    public interface ICaching 
     {
-        T GetData<T>(string key) where T : class;
-        bool SetData<T>(string key , T value ,DateTimeOffset expirationTime) where T : class;
-        object DeleteData<T>(string key) where T : class;
+        Task<string> GetItems(string key);
+        Task SetItems(string key, List<SelectListItem> Value);
+        Task<List<SelectListItem>> GetItemsByDeserialize(string key);
+
+       /* object DeleteData<T>(string key) where T : class;*/
     }
 }

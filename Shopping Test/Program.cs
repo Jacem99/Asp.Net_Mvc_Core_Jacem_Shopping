@@ -47,7 +47,8 @@ builder.Services.AddAuthentication(option =>
     builder.Services.AddScoped<IProcessImage, ProcessImage>();
     builder.Services.AddScoped<IConditionClassification, ConditionClassfication>();
     builder.Services.AddScoped<IProxyResultOfProducts, ProxyResultOfProducts>();
-    builder.Services.AddScoped<IGetSelectListItems, GetSelectListItems>();
+    builder.Services.AddScoped<IGetListItems, GetListItems>();
+    builder.Services.AddScoped<IProxyGetListItems, ProxyGetListItems>();
     builder.Services.AddScoped<ICaching, Caching>();
 
 

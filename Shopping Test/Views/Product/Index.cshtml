@@ -6,31 +6,31 @@
 <div class="mt-4">
     <h1 class="alert fw-bolder text-success text-center p-2">Products</h1>
     <div class="container divCenter cartsofCart shadow-lg p-3">
-        <div class="mt-3 mb-2 d-flex justify-content-end">
+        <div class="mt-1 mb-2 d-flex justify-content-end">
             @* <div>
                 <p class="h1 fw-bold text" style="color:#198754; text-shadow:2px 2px #ffaffa">Shoping E-Commerce</p>
             </div> *@
             <div>
-                <button class="btn btn-outline-secondary btn_search mx-1 p-2">Shearch</button>
-                <button class="btn btn-success btn_categorey mx-1 text-white p-2">Categories</button>
+                <button class="btn btn-outline-secondary btn_search mx-1  d-none">Shearch</button>
+                <button class="btn btn-success btn_categorey mx-1 text-white ">Categories</button>
             </div>
         </div>
-        <div class="col-12 mb-2 mt-1 p-1 Categories d-flex justify-content-center">
+        <div class="col-12 mb-2 Categories d-flex justify-content-center d-none">
 
                 <div class="w-75">
                 <form method="post" asp-action="Index" asp-controller="Product" id="FormSelect" class="col-12 d-flex container">
                     <div class="col-4">
-                        <select class="form-control dropDownList p-3" id="AgeStagesId" asp-for="AgeStageId" asp-items="Model.AgeStages">
+                        <select class="form-control dropDownList p-2" id="AgeStagesId" asp-for="AgeStageId" asp-items="Model.AgeStages">
                             <option value="0">Age</option>
                         </select>
                     </div>
                     <div class="col-4">
-                        <select class="form-control dropDownList p-3" id="HumanClassificationsId" asp-for="HumanClasses" asp-items="Model.HumanClasses">
+                        <select class="form-control dropDownList p-2" id="HumanClassificationsId" asp-for="HumanClassId" asp-items="Model.HumanClasses">
                             <option value="0">Human Type</option>
                         </select>
                     </div>
                     <div class="col-4">
-                        <select class="form-control dropDownList p-3" id="ClothesClassificationsId" asp-for="ClothesClassificationId" asp-items="Model.ClothesClassifications">
+                        <select class="form-control dropDownList p-2" id="ClothesClassificationsId" asp-for="ClothesClassificationId" asp-items="Model.ClothesClassifications">
                             <option value="0">Products</option>
                         </select>
                     </div>
@@ -85,8 +85,7 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            $(".Categories").hide();
-            $(".btn_search").hide();
+          
 
             $("i").on("click", function () {
                 $(this).toggleClass("fa-shield-heart");
@@ -94,8 +93,8 @@
             $(".btn_categorey").click(function () {
                 var innertext = $(this).text() == "Categories" ? "Close" : "Categories";
                 $(this).text(innertext).toggleClass("btn-success").toggleClass("btn-danger");
-                $(".btn_search").fadeToggle(200);
-                $(".Categories").slideToggle(50);
+                $(".btn_search").toggleClass("d-none");
+                $(".Categories").toggleClass("d-none");
             });
             $(".btn_search").click(function () {
                 $(this).text("Category").toggleClass("btn-danger");

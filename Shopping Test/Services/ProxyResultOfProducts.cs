@@ -6,10 +6,10 @@ namespace Shopping_Test.Services
     public class ProxyResultOfProducts : IProxyResultOfProducts
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IGetSelectListItems _getSelectListItems;
+        private readonly IProxyGetListItems _getSelectListItems;
         private readonly IConditionClassification _ConditionClass;
 
-        public ProxyResultOfProducts(IGetSelectListItems getSelectListItems,
+        public ProxyResultOfProducts(IProxyGetListItems getSelectListItems,
             IConditionClassification ConditionClass ,
             IUnitOfWork unitOfWork)
         {

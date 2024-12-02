@@ -1,6 +1,6 @@
 ﻿namespace Shopping_Test.IServices
 {
-    public interface IGetSelectListItems
+    public interface IProxyGetListItems
     {
         Task<IEnumerable<SelectListItem>> AgeStages ();
         Task<IEnumerable<SelectListItem>> HumanClass();
